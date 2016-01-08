@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 2.1 Software requirements</title>
+
+<meta name="description" content="Dynare Reference Manual: 2.1 Software requirements">
+<meta name="keywords" content="Dynare Reference Manual: 2.1 Software requirements">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Software-requirements"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_7.html#Installation-of-Dynare" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Software-requirements-1"></a>
+<h2 class="section">2.1 Software requirements</h2>
+
+<p>Packaged versions of Dynare are available for Windows XP/Vista,
+<a href="http://www.debian.org">Debian GNU/Linux</a>,
+<a href="http://www.ubuntu.com/">Ubuntu</a> and Mac OS X Leopard/Snow
+Leopard.  Dynare should work on other systems, but some compilation
+steps are necessary in that case.
+</p>
+<p>In order to run Dynare, you need at least one of the following:
+</p>
+<ul>
+<li>
+MATLAB version 7.0 (R14) or above; note that no toolbox is needed by
+Dynare,
+
+</li><li>
+GNU Octave version 3.0.0 or above.
+</li></ul>
+
+<p>Some installation instructions for GNU Octave can be found on the
+<a href="http://www.dynare.org/DynareWiki/DynareOctave">Dynare Wiki</a>.
+</p>
+<p>If you plan to use the <code>use_dll</code> option of the <code>model</code>
+command, you will need to install the necessary requirements for
+compiling MEX files on your machine. If you are using MATLAB under
+Windows, install a C++ compiler on your machine and configure it with
+MATLAB: see
+<a href="http://www.dynare.org/DynareWiki/ConfigureMatlabWindowsForMexCompilation">instructions on the Dynare wiki</a>. Users of Octave under Linux should install the
+package for MEX file compilation (under Debian or Ubuntu, it is called
+&lsquo;<tt>octave3.2-headers</tt>&rsquo; or &lsquo;<tt>octave3.0-headers</tt>&rsquo;). If you are
+using Octave or MATLAB under Mac OS X, you should install the latest
+version of XCode: see
+<a href="http://www.dynare.org/DynareWiki/InstallOnMacOSX">instructions on the Dynare wiki</a>. Mac OS X Octave users will also need to install
+gnuplot if they want graphing capabilities. Users of MATLAB under
+Linux and Mac OS X, and users of Octave under Windows, normally need
+to do nothing, since a working compilation environment is available by
+default.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_7.html#Installation-of-Dynare" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

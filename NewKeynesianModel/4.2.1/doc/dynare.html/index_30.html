@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.20 Misc commands</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.20 Misc commands">
+<meta name="keywords" content="Dynare Reference Manual: 4.20 Misc commands">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Misc-commands"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_29.html#MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Misc-commands-1"></a>
+<h2 class="section">4.20 Misc commands</h2>
+
+<dl>
+<dt><a name="index-set_005fdynare_005fseed"></a><u>Command:</u> <b>set_dynare_seed</b><i> (<var>INTEGER</var>)</i></dt>
+<dt><a name="index-set_005fdynare_005fseed-1"></a><u>Command:</u> <b>set_dynare_seed</b><i> ('default')</i></dt>
+<dt><a name="index-set_005fdynare_005fseed-2"></a><u>Command:</u> <b>set_dynare_seed</b><i> ('reset')</i></dt>
+<dt><a name="index-set_005fdynare_005fseed-3"></a><u>Command:</u> <b>set_dynare_seed</b><i> ('<var>ALGORITHM</var>', <var>INTEGER</var>)</i></dt>
+<dd>
+<p>Sets the seed used for random number generation.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-save_005fparams_005fand_005fsteady_005fstate"></a><u>Command:</u> <b>save_params_and_steady_state</b><i> <var>FILENAME</var>;</i></dt>
+<dd>
+<p>For all parameters, endogenous and exogenous variables, stores
+their value in a text file, using a simple name/value associative table.
+</p>
+<ul>
+<li>
+for parameters, the value is taken from the last parameter
+initialization
+
+</li><li>
+for exogenous, the value is taken from the last initval block
+
+</li><li>
+for endogenous, the value is taken from the last steady state computation
+(or, if no steady state has been computed, from the last initval block)
+</li></ul>
+
+<p>Note that no variable type is stored in the file, so that the values
+can be reloaded with <code>load_params_and_steady_state</code> in a setup where
+the variable types are different.
+</p>
+<p>The typical usage of this function is to compute the steady-state of a
+model by calibrating the steady-state value of some endogenous
+variables (which implies that some parameters must be endogeneized
+during the steady-state computation).
+</p>
+<p>You would then write a first &lsquo;<tt>.mod</tt>&rsquo; file which computes the
+steady state and saves the result of the computation at the end of the
+file, using <code>save_params_and_steady_state</code>.
+</p>
+<p>In a second file designed to perform the actual simulations, you would
+use <code>load_params_and_steady_state</code> just after your variable
+declarations, in order to load the steady state previously computed
+(including the parameters which had been endogeneized during the
+steady state computation).
+</p>
+<p>The need for two separate &lsquo;<tt>.mod</tt>&rsquo; files arises from the fact that
+the variable declarations differ between the files for steady state
+calibration and for simulation (the set of endogenous and parameters
+differ between the two); this leads to different <code>var</code> and
+<code>parameters</code> statements.
+</p>
+<p>Also note that you can take advantage of the <code>@#include</code>
+directive to share the model equations between the two files
+(see section <a href="index_29.html#Macro_002dprocessing-language">Macro-processing language</a>).
+</p>
+</dd></dl>
+
+<p><a name="load_005fparams_005fand_005fsteady_005fstate"></a>
+</p><dl>
+<dt><a name="index-load_005fparams_005fand_005fsteady_005fstate"></a><u>Command:</u> <b>load_params_and_steady_state</b><i> <var>FILENAME</var>;</i></dt>
+<dd>
+<p>For all parameters, endogenous and exogenous variables, loads
+their value from a file created with <code>save_params_and_steady_state</code>.
+</p>
+<ul>
+<li>
+for parameters, their value will be initialized as if they
+had been calibrated in the &lsquo;<tt>.mod</tt>&rsquo; file
+
+</li><li>
+for endogenous and exogenous, their value will be initialized
+as they would have been from an initval block
+</li></ul>
+
+<p>This function is used in conjunction with
+<code>save_params_and_steady_state</code>; see the documentation of that
+function for more information.
+</p>
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_29.html#MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

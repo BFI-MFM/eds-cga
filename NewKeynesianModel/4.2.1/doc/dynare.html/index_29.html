@@ -1,0 +1,748 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.19 Macro-processing language</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.19 Macro-processing language">
+<meta name="keywords" content="Dynare Reference Manual: 4.19 Macro-processing language">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Macro_002dprocessing-language"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_28.html#Displaying-and-saving-results" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro-expressions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Macro_002dprocessing-language-1"></a>
+<h2 class="section">4.19 Macro-processing language</h2>
+
+<p>It is possible to use &ldquo;macro&rdquo; commands in the &lsquo;<tt>.mod</tt>&rsquo; file for
+doing the following tasks: including modular source files, replicating
+blocks of equations through loops, conditionally executing some code,
+writing indexed sums or products inside equations&hellip;
+</p>
+<p>The Dynare macro-language provides a new set of <em>macro-commands</em>
+which can be inserted inside &lsquo;<tt>.mod</tt>&rsquo; files. It features:
+</p>
+<ul>
+<li>
+file inclusion
+
+</li><li>
+loops (<code>for</code> structure)
+
+</li><li>
+conditional inclusion (<code>if/then/else</code> structures)
+
+</li><li>
+expression substitution
+</li></ul>
+
+<p>Technically, this macro language is totally independent of the basic
+Dynare language, and is processed by a separate component of the
+Dynare pre-processor. The macro processor transforms a &lsquo;<tt>.mod</tt>&rsquo;
+file with macros into a &lsquo;<tt>.mod</tt>&rsquo; file without macros (doing
+expansions/inclusions), and then feeds it to the Dynare parser. The
+key point to understand is that the macro-processor only does
+<em>text substitution</em> (like the C preprocessor or the PHP
+language).  Note that it is possible to see the output of the
+macro-processor by using the <code>savemacro</code> option of the
+<code>dynare</code> command (see section <a href="index_9.html#Dynare-invocation">Dynare invocation</a>).
+</p>
+<p>The macro-processor is invoked by placing <em>macro directives</em> in
+the &lsquo;<tt>.mod</tt>&rsquo; file. Directives begin with an at-sign followed by a
+pound sign (<code>@#</code>). They produce no output, but give instructions
+to the macro-processor. In most cases, directives occupy exactly one
+line of text. In case of need, two anti-slashes (<code>\\</code>) at the end
+of the line indicates that the directive is continued on the next
+line. The main directives are:
+</p><ul>
+<li>
+<code>@#include</code>, for file inclusion,
+</li><li>
+<code>@#define</code>, for defining a macro-processor variable,
+</li><li>
+<code>@#if</code>, <code>@#then</code>, <code>@#else</code>, <code>@#endif</code> for
+conditional statements,
+</li><li>
+<code>@#for</code>, <code>@#endfor</code> for constructing loops.
+</li></ul>
+
+<p>The macro-processor maintains its own list of variables (distinct of
+model variables and of MATLAB/Octave variables). These macro-variables
+are assigned using the <code>@#define</code> directive, and can be of four
+types: integer, character string, array of integers, array of
+strings.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Macro-expressions">4.19.1 Macro expressions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">           
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Macro-directives">4.19.2 Macro directives</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Typical-usages">4.19.3 Typical usages</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              
+</td></tr>
+<tr><td align="left" valign="top"><a href="#MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops">4.19.4 MATLAB/Octave loops versus macro-processor loops</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Macro-expressions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Macro_002dprocessing-language" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro-directives" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro_002dprocessing-language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Macro-expressions-1"></a>
+<h3 class="subsection">4.19.1 Macro expressions</h3>
+
+<p>It is possible to construct macro-expressions which can be assigned to
+macro-variables or used within a macro-directive. The expressions are
+constructed using literals of the four basic types (integers, strings,
+arrays of strings, arrays of integers), macro-variables names and
+standard operators.
+</p>
+<p>String literals have to be enclosed between <strong>double</strong> quotes
+(like <code>&quot;name&quot;</code>). Arrays are enclosed within brackets, and their
+elements are separated by commas (like <code>[1,2,3]</code> or <code>[&quot;US&quot;,
+&quot;EA&quot;]</code>).
+</p>
+<p>Note that there is no boolean type: <em>false</em> is
+represented by integer zero and <em>true</em> is any non-null integer.
+</p>
+<p>The following operators can be used on integers:
+</p><ul>
+<li>
+arithmetic operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>
+</li><li>
+comparison operators: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>,
+<code>==</code>, <code>!=</code>
+</li><li>
+logical operators: <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>
+</li><li>
+integer ranges, using the following syntax:
+<code><var>INTEGER1</var>:<var>INTEGER2</var></code> (for example, <code>1:4</code> is
+equivalent to integer array <code>[1,2,3,4]</code>)
+</li></ul>
+
+<p>The following operators can be used on strings:
+</p><ul>
+<li>
+comparison operators: <code>==</code>, <code>!=</code>
+</li><li>
+concatenation of two strings: <code>+</code>
+</li><li>
+extraction of substrings: if <code><var>s</var></code> is a string, then
+<code><var>s</var>[3]</code> is a string containing only the third character of
+<code><var>s</var></code>, and <code><var>s</var>[4:6]</code> contains the characters from
+4th to 6th
+</li></ul>
+
+<p>The following operators can be used on arrays:
+</p><ul>
+<li>
+dereferencing: if <code><var>v</var></code> is an array, then <code><var>v</var>[2]</code> is its 2nd element
+</li><li>
+concatenation of two arrays: <code>+</code>
+</li><li>
+difference <code>-</code>: returns the first operand from which the elements
+of the second operand have been removed
+</li><li>
+extraction of sub-arrays: <i>e.g.</i> <code><var>v</var>[4:6]</code>
+</li><li>
+testing membership of an array: <code>in</code> operator (for example:
+<code>&quot;b&quot; in [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code> returns <code>1</code>)
+</li></ul>
+
+<p>Macro-expressions can be used at two places:
+</p><ul>
+<li>
+inside macro directives, directly;
+</li><li>
+in the body of the <code>.mod</code> file, between an at-sign and curly
+braces (like <code>@{<var>expr</var>}</code>): the macro processor will
+substitute the expression with its value.
+</li></ul>
+
+<p>In the following, <var>MACRO_EXPRESSION</var> designates an expression
+constructed as explained above.
+</p>
+<hr size="6">
+<a name="Macro-directives"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Macro-expressions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Typical-usages" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro_002dprocessing-language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Macro-directives-1"></a>
+<h3 class="subsection">4.19.2 Macro directives</h3>
+
+<dl>
+<dt><a name="index-_0040_0023include"></a><u>Macro directive:</u> <b>@#include</b><i> &quot;<var>FILENAME</var>&quot;</i></dt>
+<dd><p>This directive simply includes the content of another file at the
+place where it is inserted. It is exactly equivalent to a copy/paste
+of the content of the included file. Note that it is possible to nest
+includes (<i>i.e.</i> to include a file from an included file).
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">@#include &quot;modelcomponent.mod&quot;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-_0040_0023define"></a><u>Macro directive:</u> <b>@#define</b><i> <var>MACRO_VARIABLE</var> = <var>MACRO_EXPRESSION</var></i></dt>
+<dd><p>Defines a macro-variable.
+</p>
+<p><em>Example 1</em>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">@#define x = 5              // Integer
+@#define y = &quot;US&quot;           // String
+@#define v = [ 1, 2, 4 ]    // Integer array
+@#define w = [ &quot;US&quot;, &quot;EA&quot; ] // String array
+@#define z = 3 + v[2]       // Equals 5
+@#define t = (&quot;US&quot; in w)    // Equals 1 (true)
+</pre></td></tr></table>
+
+<p><em>Example 2</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">@#define x = [ &quot;B&quot;, &quot;C&quot; ]
+@#define i = 2
+
+model;
+  A = @{x[i]};
+end;
+</pre></td></tr></table>
+<p>is strictly equivalent to:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">model;
+  A = C;
+end;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-_0040_0023if"></a><u>Macro directive:</u> <b>@#if</b><i> <var>MACRO_EXPRESSION</var></i></dt>
+<dt><a name="index-_0040_0023else"></a><u>Macro directive:</u> <b>@#else</b></dt>
+<dt><a name="index-_0040_0023endif"></a><u>Macro directive:</u> <b>@#endif</b></dt>
+<dd><p>Conditional inclusion of some part of the &lsquo;<tt>.mod</tt>&rsquo; file. 
+The lines between <code>@#if</code> and the next <code>@#else</code> or
+<code>@#end</code> is executed only if the condition evaluates to a
+non-null integer. The <code>@#else</code> branch is optional and, if
+present, is only evaluated if the condition evaluates to <code>0</code>.
+</p>
+<p><em>Example</em>
+</p>
+<p>Choose between two alternative monetary policy rules using a macro-variable:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">@#define linear_mon_pol = 0 // or 1
+...
+model;
+@#if linear_mon_pol
+  i = w*i(-1) + (1-w)*i_ss + w2*(pie-piestar);
+@#else
+  i = i(-1)^w * i_ss^(1-w) * (pie/piestar)^w2;
+@#endif
+...
+end;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-_0040_0023for"></a><u>Macro directive:</u> <b>@#for</b><i> <var>MACRO_VARIABLE</var> in <var>MACRO_EXPRESSION</var></i></dt>
+<dt><a name="index-_0040_0023endfor"></a><u>Macro directive:</u> <b>@#endfor</b></dt>
+<dd><p>Loop construction for replicating portions of the &lsquo;<tt>.mod</tt>&rsquo; file.
+Note that this construct can enclose variable/parameters declaration,
+computational tasks, but not a model declaration.
+</p>
+<p><em>Example</em>
+</p><table><tr><td>&nbsp;</td><td><pre class="example">model;
+@#for country in [ &quot;home&quot;, &quot;foreign&quot; ]
+  GDP_@{country} = A * K_@{country}^a * L_@{country}^(1-a);
+@#endfor
+end;
+</pre></td></tr></table>
+<p>is equivalent to:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">model;
+  GDP_home = A * K_home^a * L_home^(1-a);
+  GDP_foreign = A * K_foreign^a * L_foreign^(1-a);
+end;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-_0040_0023echo"></a><u>Macro directive:</u> <b>@#echo</b><i> <var>MACRO_EXPRESSION</var></i></dt>
+<dd><p>Asks the preprocessor to display some message on standard output. The
+argument must evaluate to a string.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-_0040_0023error"></a><u>Macro directive:</u> <b>@#error</b><i> <var>MACRO_EXPRESSION</var></i></dt>
+<dd><p>Asks the preprocessor to display some error message on standard output
+and to abort. The argument must evaluate to a string.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Typical-usages"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Macro-directives" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Modularization" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro_002dprocessing-language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Typical-usages-1"></a>
+<h3 class="subsection">4.19.3 Typical usages</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Modularization">4.19.3.1 Modularization</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Indexed-sums-or-products">4.19.3.2 Indexed sums or products</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Multi_002dcountry-models">4.19.3.3 Multi-country models</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">        
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Endogeneizing-parameters">4.19.3.4 Endogeneizing parameters</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Modularization"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Typical-usages" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Indexed-sums-or-products" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Typical-usages" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Modularization-1"></a>
+<h4 class="subsubsection">4.19.3.1 Modularization</h4>
+
+<p>The <code>@#include</code> directive can be used to split &lsquo;<tt>.mod</tt>&rsquo; files
+into several modular components.
+</p>
+<p>Example setup:
+</p>
+<dl compact="compact">
+<dt> &lsquo;<tt>modeldesc.mod</tt>&rsquo;</dt>
+<dd><p>Contains variable declarations, model equations and shocks declarations
+</p></dd>
+<dt> &lsquo;<tt>simul.mod</tt>&rsquo;</dt>
+<dd><p>Includes &lsquo;<tt>modeldesc.mod</tt>&rsquo;, calibrates parameters and runs
+stochastic simulations
+</p></dd>
+<dt> &lsquo;<tt>estim.mod</tt>&rsquo;</dt>
+<dd><p>Includes &lsquo;<tt>modeldesc.mod</tt>&rsquo;, declares priors on parameters and runs
+bayesian estimation
+</p></dd>
+</dl>
+
+<p>Dynare can be called on &lsquo;<tt>simul.mod</tt>&rsquo; and &lsquo;<tt>estim.mod</tt>&rsquo;, but it
+makes no sense to run it on &lsquo;<tt>modeldesc.mod</tt>&rsquo;.
+</p>
+<p>The main advantage is that it is no longer needed to manually
+copy/paste the whole model (at the beginning) or changes to the model
+(during development).
+</p>
+<hr size="6">
+<a name="Indexed-sums-or-products"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Modularization" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Multi_002dcountry-models" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Typical-usages" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Indexed-sums-or-products-1"></a>
+<h4 class="subsubsection">4.19.3.2 Indexed sums or products</h4>
+
+<p>The following example shows how to construct a moving average:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">@#define window = 2
+
+var x MA_x;
+...
+model;
+...
+MA_x = 1/@{2*window+1}*(
+@#for i in -window:window
+        +x(@{i})
+@#endfor
+       );
+...
+end;
+</pre></td></tr></table>
+
+<p>After macro-processing, this is equivalent to:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">var x MA_x;
+...
+model;
+...
+MA_x = 1/5*(
+        +x(-2)
+        +x(-1)
+        +x(0)
+        +x(1)
+        +x(2)
+       );
+...
+end;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Multi_002dcountry-models"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Indexed-sums-or-products" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Endogeneizing-parameters" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Typical-usages" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Multi_002dcountry-models-1"></a>
+<h4 class="subsubsection">4.19.3.3 Multi-country models</h4>
+
+<p>Here is a skeleton example for a multi-country model:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">@#define countries = [ &quot;US&quot;, &quot;EA&quot;, &quot;AS&quot;, &quot;JP&quot;, &quot;RC&quot; ]
+@#define nth_co = &quot;US&quot;
+
+@#for co in countries
+var Y_@{co} K_@{co} L_@{co} i_@{co} E_@{co} ...;
+parameters a_@{co} ...;
+varexo ...;
+@#endfor
+
+model;
+@#for co in countries
+ Y_@{co} = K_@{co}^a_@{co} * L_@{co}^(1-a_@{co});
+...
+@# if co != nth_co
+ (1+i_@{co}) = (1+i_@{nth_co}) * E_@{co}(+1) / E_@{co}; // UIP relation
+@# else
+ E_@{co} = 1;
+@# endif
+@#endfor
+end;
+</pre></td></tr></table>
+
+<hr size="6">
+<a name="Endogeneizing-parameters"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Multi_002dcountry-models" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Typical-usages" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Endogeneizing-parameters-1"></a>
+<h4 class="subsubsection">4.19.3.4 Endogeneizing parameters</h4>
+
+<p>When doing the steady state calibration of the model, it may be useful
+to consider a parameter as an endogenous (and vice-versa).
+</p>
+<p>For example, suppose production is defined by a CES function:
+</p>
+<p><!-- MATH
+ $y = \left(\alpha^{1/\xi} \ell^{1-1/\xi}+(1-\alpha)^{1/\xi}k^{1-1/\xi}\right)^{\xi/(\xi-1)}$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="301" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_51.png"
+ ALT="$y = \left(\alpha^{1/\xi} \ell^{1-1/\xi}+(1-\alpha)^{1/\xi}k^{1-1/\xi}\right)^{\xi/(\xi-1)}$"></SPAN>
+</p>
+<p>The labor share in GDP is defined as:
+</p>
+<p><code>lab_rat</code> <!-- MATH
+ $= (w \ell)/(p y)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="88" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_52.png"
+ ALT="$= (w \ell)/(p y)$"></SPAN>
+</p>
+<p>In the model, <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN> is a (share) parameter, and
+<code>lab_rat</code> is an endogenous variable.
+</p>
+<p>It is clear that calibrating <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN> is not straigthforward; but
+on the contrary, we have real world data for <code>lab_rat</code>, and 
+it is clear that these two variables are economically linked.
+</p>
+<p>The solution is to use a method called <em>variable flipping</em>, which
+consist in changing the way of computing the steady state. During this
+computation, <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN> will be made an endogenous variable and
+<code>lab_rat</code> will be made a parameter. An economically relevant
+value will be calibrated for <code>lab_rat</code>, and the solution
+algorithm will deduce the implied value for <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN>.
+</p>
+<p>An implementation could consist of the following files:
+</p>
+<dl compact="compact">
+<dt> &lsquo;<tt>modeqs.mod</tt>&rsquo;</dt>
+<dd><p>This file contains variable declarations and model equations. The code
+for the declaration of <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN> and <code>lab_rat</code> would look like:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">@#if steady
+ var alpha;
+ parameter lab_rat;
+@#else
+ parameter alpha;
+ var lab_rat;
+@#endif
+</pre></td></tr></table>
+
+</dd>
+<dt> &lsquo;<tt>steady.mod</tt>&rsquo;</dt>
+<dd><p>This file computes the steady state. It begins with:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">@#define steady = 1
+@#include &quot;modeqs.mod&quot;
+</pre></td></tr></table>
+<p>Then it initializes parameters (including <code>lab_rat</code>, excluding
+<SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN>, computes the steady state (using guess values for
+endogenous, including <SPAN CLASS="MATH"><IMG
+ WIDTH="14" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_53.png"
+ ALT="$\alpha$"></SPAN>, then saves values of parameters
+and endogenous at steady state in a file, using the
+<code>save_params_and_steady_state</code> command.
+</p>
+</dd>
+<dt> &lsquo;<tt>simul.mod</tt>&rsquo;</dt>
+<dd><p>This file computes the simulation. It begins with:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">@#define steady = 1
+@#include &quot;modeqs.mod&quot;
+</pre></td></tr></table>
+<p>Then it loads values of parameters and endogenous at steady state from
+file, using the <code>load_params_and_steady_state</code> command, and
+computes the simulations.
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Endogeneizing-parameters" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_30.html#Misc-commands" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro_002dprocessing-language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="MATLAB_002fOctave-loops-versus-macro_002dprocessor-loops-1"></a>
+<h3 class="subsection">4.19.4 MATLAB/Octave loops versus macro-processor loops</h3>
+
+<p>Suppose you have a model with a parameter <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_54.png"
+ ALT="$\rho$"></SPAN>, and you want to make
+simulations for three values: <!-- MATH
+ $\rho = 0.8, 0.9, 1$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="96" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_55.png"
+ ALT="$\rho = 0.8, 0.9, 1$"></SPAN>. There are
+several ways of doing this:
+</p>
+<dl compact="compact">
+<dt> With a MATLAB/Octave loop</dt>
+<dd><table><tr><td>&nbsp;</td><td><pre class="example">rhos = [ 0.8, 0.9, 1];
+for i = 1:length(rhos)
+  rho = rhos(i);
+  stoch_simul(order=1);
+end
+</pre></td></tr></table>
+<p>Here the loop is not unrolled, MATLAB/Octave manages the iterations.
+This is interesting when there are a lot of iterations.
+</p>
+</dd>
+<dt> With a macro-processor loop (case 1)</dt>
+<dd><table><tr><td>&nbsp;</td><td><pre class="example">rhos = [ 0.8, 0.9, 1];
+@#for i in 1:3
+  rho = rhos(@{i});
+  stoch_simul(order=1);
+@#endfor
+</pre></td></tr></table>
+<p>This is very similar to previous example, except that the loop is
+unrolled.  The macro-processor manages the loop index but not the data
+array (<code>rhos</code>).
+</p>
+</dd>
+<dt> With a macro-processor loop (case 2)</dt>
+<dd><table><tr><td>&nbsp;</td><td><pre class="example">@#for rho_val in [ &quot;0.8&quot;, &quot;0.9&quot;, &quot;1&quot;]
+  rho = @{rho_val};
+  stoch_simul(order=1);
+@#endfor
+</pre></td></tr></table>
+<p>The advantage of this method is that it uses a shorter syntax, since
+list of values directly given in the loop construct. Note that values
+are given as character strings (the macro-processor does not know
+floating point values. The inconvenient is that you can not reuse an
+array stored in a MATLAB/Octave variable.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Endogeneizing-parameters" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_30.html#Misc-commands" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Macro_002dprocessing-language" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.10 Steady state</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.10 Steady state">
+<meta name="keywords" content="Dynare Reference Manual: 4.10 Steady state">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Steady-state"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_19.html#Other-general-declarations" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Finding-the-steady-state-with-Dynare-nonlinear-solver" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Steady-state-1"></a>
+<h2 class="section">4.10 Steady state</h2>
+
+<p>There are two ways of computing the steady state (<i>i.e.</i> the static
+equilibrium) of a model. The first way is to let Dynare compute the
+steady state using a nonlinear Newton-type solver; this should work
+for most models, and is relatively simple to use. The second way is to
+give more guidance to Dynare, using your knowledge of the model, by
+providing it with a &ldquo;steady state file&rdquo;.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Finding-the-steady-state-with-Dynare-nonlinear-solver">4.10.1 Finding the steady state with Dynare nonlinear solver</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Using-a-steady-state-file">4.10.2 Using a steady state file</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">   
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Finding-the-steady-state-with-Dynare-nonlinear-solver"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Steady-state" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Using-a-steady-state-file" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Steady-state" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Finding-the-steady-state-with-Dynare-nonlinear-solver-1"></a>
+<h3 class="subsection">4.10.1 Finding the steady state with Dynare nonlinear solver</h3>
+
+<dl>
+<dt><a name="index-steady"></a><u>Command:</u> <b>steady</b><i> ;</i></dt>
+<dt><a name="index-steady-1"></a><u>Command:</u> <b>steady</b><i> (<var>OPTIONS</var>&hellip;);</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command computes the steady state of a model using a nonlinear
+Newton-type solver.
+</p>
+<p>More precisely, it computes the equilibrium value of the endogenous
+variables for the value of the exogenous variables specified in the
+previous <code>initval</code> or <code>endval</code> block.
+</p>
+<p><code>steady</code> uses an iterative procedure and takes as initial guess
+the value of the endogenous variables set in the previous
+<code>initval</code> or <code>endval</code> block.
+</p>
+<p>For complicated models, finding good numerical initial values for the
+endogenous variables is the trickiest part of finding the equilibrium
+of that model. Often, it is better to start with a smaller model and
+add new variables one by one.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>solve_algo = <var>INTEGER</var></code></dt>
+<dd><p><a name="solve_005falgo"></a>
+Determines the non-linear solver to use. Possible values for the option are:
+</p>
+<dl compact="compact">
+<dt> <code>0</code></dt>
+<dd><p>Use <code>fsolve</code> (under MATLAB, only available if you have the
+Optimization Toolbox; always available under Octave)
+</p>
+</dd>
+<dt> <code>1</code></dt>
+<dd><p>Use Dynare&rsquo;s own nonlinear equation solver
+</p>
+</dd>
+<dt> <code>2</code></dt>
+<dd><p>Splits the model into recursive blocks and solves each block in turn
+</p>
+</dd>
+<dt> <code>3</code></dt>
+<dd><p>Use Chris Sims&rsquo; solver
+</p>
+</dd>
+<dt> <code>4</code></dt>
+<dd><p>Similar to value <code>2</code>, except that it deals differently with
+nearly singular Jacobian
+</p>
+</dd>
+<dt> <code>5</code></dt>
+<dd><p>Newton algorithm with a sparse Gaussian elimination (SPE) (requires
+<code>bytecode</code> option, see section <a href="index_15.html#Model-declaration">Model declaration</a>)
+</p>
+</dd>
+<dt> <code>6</code></dt>
+<dd><p>Newton algorithm with a sparse LU solver at each iteration (requires
+<code>bytecode</code> and/or <code>block</code> option, see section <a href="index_15.html#Model-declaration">Model declaration</a>)
+</p>
+</dd>
+<dt> <code>7</code></dt>
+<dd><p>Newton algorithm with a Generalized Minimal Residual (GMRES) solver at
+each iteration (requires <code>bytecode</code> and/or <code>block</code> option,
+see section <a href="index_15.html#Model-declaration">Model declaration</a>; not available under Octave))
+</p>
+</dd>
+<dt> <code>8</code></dt>
+<dd><p>Newton algorithm with a Stabilized Bi-Conjugate Gradient (BICGSTAB)
+solver at each iteration (requires <code>bytecode</code> and/or <code>block</code>
+option, see section <a href="index_15.html#Model-declaration">Model declaration</a>)
+</p></dd>
+</dl>
+
+<p>Default value is <code>2</code>.
+</p>
+</dd>
+<dt> <code>homotopy_mode = <var>INTEGER</var></code></dt>
+<dd><p>Use a homotopy (or divide-and-conquer) technique to solve for the
+steady state. If you use this option, you must specify a
+<code>homotopy_setup</code> block. This option can take three possible
+values:
+</p>
+<dl compact="compact">
+<dt> <code>1</code></dt>
+<dd><p>In this mode, all the parameters are changed simultaneously, and the
+distance between the boudaries for each parameter is divided in as
+many intervals as there are steps (as defined by <code>homotopy_steps</code>
+option); the problem is solves as many times as there are steps.
+</p>
+</dd>
+<dt> <code>2</code></dt>
+<dd><p>Same as mode <code>1</code>, except that only one parameter is changed at a
+time; the problem is solved as many times as steps times number of
+parameters.
+</p>
+</dd>
+<dt> <code>3</code></dt>
+<dd><p>Dynare tries first the most extreme values. If it fails to compute the
+steady state, the interval between initial and desired values is
+divided by two for all parameters. Every time that it is impossible to
+find a steady state, the previous interval is divided by two. When it
+succeeds to find a steady state, the previous interval is multiplied
+by two. In that last case <code>homotopy_steps</code> contains the maximum
+number of computations attempted before giving up.
+</p></dd>
+</dl>
+
+</dd>
+<dt> <code>homotopy_steps = <var>INTEGER</var></code></dt>
+<dd><p>Defines the number of steps when performing a homotopy. See
+<code>homotopy_mode</code> option for more details.
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<p>See section <a href="index_17.html#Initial-and-terminal-conditions">Initial and terminal conditions</a>.
+</p>
+</dd></dl>
+
+<p>After computation, the steady state is available in the following
+variable:
+</p>
+<dl>
+<dt><a name="index-oo_005f_002esteady_005fstate"></a><u>MATLAB/Octave variable:</u> <b>oo_.steady_state</b></dt>
+<dd>
+<p>Contains the computed steady state.
+</p>
+<p>Endogenous variables are ordered in order of declaration used in
+<code>var</code> command (which is also the order used in <code>M_.endo_names</code>). 
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-homotopy_005fsetup"></a><u>Block:</u> <b>homotopy_setup</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block is used to declare initial and final values when using
+a homotopy method. It is used in conjunction with the option
+<code>homotopy_mode</code> of the <code>steady</code> command.
+</p>
+<p>The idea of homotopy (also called divide-and-conquer by some authors)
+is to subdivide the problem of finding the steady state into smaller
+problems. It assumes that you know how to compute the steady state for
+a given set of parameters, and it helps you finding the steady state
+for another set of parameters, by incrementally moving from one to
+another set of parameters.
+</p>
+<p>The purpose of the <code>homotopy_setup</code> block is to declare the final
+(and possibly also the initial) values for the parameters or exogenous
+that will be changed during the homotopy. It should contain lines of
+the form:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"><var>VARIABLE_NAME</var>, <var>EXPRESSION</var>, <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>This syntax specifies the initial and final values of a given
+parameter/exogenous.
+</p>
+<p>There is an alternative syntax:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><var>VARIABLE_NAME</var>, <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>Here only the final value is specified for a given
+parameter/exogenous; the initial value is taken from the preceeding
+<code>initval</code> block.
+</p>
+<p>A necessary condition for a successful homotopy is that Dynare must be
+able to solve the steady state for the initial parameters/exogenous
+without additional help (using the guess values given in the
+<code>initval</code> block).
+</p>
+<p>If the homotopy fails, a possible solution is to increase the number
+of steps (given in <code>homotopy_steps</code> option of <code>steady</code>).
+</p>
+<p><em>Example</em>
+</p>
+<p>In the following example, Dynare will first compute the steady state
+for the initial values (<code>gam=0.5</code> and <code>x=1</code>), and then
+subdivide the problem into 50 smaller problems to find the steady
+state for the final values (<code>gam=2</code> and <code>x=2</code>).
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var c k;
+varexo x;
+
+parameters alph gam delt bet aa;
+alph=0.5;
+delt=0.02;
+aa=0.5;
+bet=0.05;
+
+model;
+c + k - aa*x*k(-1)^alph - (1-delt)*k(-1);
+c^(-gam) - (1+bet)^(-1)*(aa*alph*x(+1)*k^(alph-1) + 1 - delt)*c(+1)^(-gam);
+end;
+
+initval;
+x = 1;
+k = ((delt+bet)/(aa*x*alph))^(1/(alph-1));
+c = aa*x*k^alph-delt*k;
+end;
+
+homotopy_setup;
+gam, 0.5, 2;
+x, 2;
+end;
+
+steady(homotopy_mode = 1, homotopy_steps = 50);
+</pre></td></tr></table>
+
+</dd></dl>
+
+<hr size="6">
+<a name="Using-a-steady-state-file"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Finding-the-steady-state-with-Dynare-nonlinear-solver" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_21.html#Getting-information-about-the-model" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Steady-state" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Using-a-steady-state-file-1"></a>
+<h3 class="subsection">4.10.2 Using a steady state file</h3>
+
+<p>If you know how to compute the steady state for your model, you can
+provide a MATLAB/Octave function doing the computation instead of
+using <code>steady</code>. If your MOD-file is called
+&lsquo;<tt><var>FILENAME</var>.mod</tt>&rsquo;, the steady state file should be called
+&lsquo;<tt><var>FILENAME</var>_steadystate.m</tt>&rsquo;.
+</p>
+<p>Again, there are two options for creating this file:
+</p>
+<ul>
+<li>
+You can write this file by hand. See &lsquo;<tt>fs2000_steadystate.m</tt>&rsquo;
+in the &lsquo;<tt>examples</tt>&rsquo; directory for an example. This is the option
+which gives the most flexibility, at the expense of a heavier
+programming burden.
+
+</li><li>
+You can use the <code>steady_state_model</code> block, for a more
+user-friendly interface.
+
+</li></ul>
+
+<p><a name="steady_005fstate_005fmodel"></a>
+</p><dl>
+<dt><a name="index-steady_005fstate_005fmodel"></a><u>Block:</u> <b>steady_state_model</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>When the analytical solution of the model is known, this command can
+be used to help Dynare find the steady state in a more efficient and
+reliable way, especially during estimation where the steady state has
+to be recomputed for every point in the parameter space.
+</p>
+<p>Each line of this block consists of a variable (either an endogenous,
+a temporary variable or a parameter) which is assigned an expression
+(which can contain parameters, exogenous at the steady state, or any
+endogenous or temporary variable already declared above). Each line
+therefore looks like:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"><var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>Note that it is also possible to assign several variables at the same
+time, if the main function in the right hand side is a MATLAB/Octave
+function returning several arguments:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">[ <var>VARIABLE_NAME</var>, <var>VARIABLE_NAME</var>&hellip; ] = <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>Dynare will automatically generate a steady state file using the
+information provided in this block.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var m P c e W R k d n l gy_obs gp_obs y dA;
+varexo e_a e_m;
+
+parameters alp bet gam mst rho psi del;
+
+&hellip;
+// parameter calibration, (dynamic) model declaration, shock calibration&hellip;
+&hellip;
+
+steady_state_model;
+  dA = exp(gam);
+  gst = 1/dA; // A temporary variable
+  m = mst;
+  
+  // Three other temporary variables
+  khst = ( (1-gst*bet*(1-del)) / (alp*gst^alp*bet) )^(1/(alp-1));
+  xist = ( ((khst*gst)^alp - (1-gst*(1-del))*khst)/mst )^(-1);
+  nust = psi*mst^2/( (1-alp)*(1-psi)*bet*gst^alp*khst^alp );
+
+  n  = xist/(nust+xist);
+  P  = xist + nust;
+  k  = khst*n;
+
+  l  = psi*mst*n/( (1-psi)*(1-n) );
+  c  = mst/P;
+  d  = l - mst + 1;
+  y  = k^alp*n^(1-alp)*gst^alp;
+  R  = mst/bet;
+
+  // You can use MATLAB functions which return several arguments
+  [W, e] = my_function(l, n);
+  
+  gp_obs = m/dA;
+  gy_obs = dA;
+end;
+
+steady;
+</pre></td></tr></table>
+
+</dd></dl>
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Finding-the-steady-state-with-Dynare-nonlinear-solver" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_21.html#Getting-information-about-the-model" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Steady-state" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

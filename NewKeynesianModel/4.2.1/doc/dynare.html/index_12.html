@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.2 Variable declarations</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.2 Variable declarations">
+<meta name="keywords" content="Dynare Reference Manual: 4.2 Variable declarations">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Variable-declarations"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_11.html#Conventions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_13.html#Expressions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Variable-declarations-1"></a>
+<h2 class="section">4.2 Variable declarations</h2>
+
+<p>Declarations of variables and parameters are made with the following commands:
+</p>
+<dl>
+<dt><a name="index-var"></a><u>Command:</u> <b>var</b><i> <var>VARIABLE_NAME</var> [$<var>LATEX_NAME</var>$]&hellip;;</i></dt>
+<dt><a name="index-var-1"></a><u>Command:</u> <b>var</b><i> (deflator = <var>MODEL_EXPRESSION</var>) <var>VARIABLE_NAME</var> [$<var>LATEX_NAME</var>$]&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This required command declares the endogenous variables in the
+model. See section <a href="index_11.html#Conventions">Conventions</a>, for the syntax of <var>VARIABLE_NAME</var> and
+<var>MODEL_EXPRESSION</var>. Optionally it is possible to give a LaTeX name
+to the variable or, if it is nonstationary, provide information regarding
+its deflator.
+</p>
+<p><code>var</code> commands can appear several times in the file and Dynare will
+concatenate them.
+</p>
+<p><em>Options</em>
+</p>
+<p>If the model is nonstationary and is to be written as such in the
+<code>model</code> block, Dynare will need the trend deflator for the
+appropriate endogenous variables in order to stationarize the model. The
+trend deflator must be provided alongside the variables that follow this
+trend.
+</p>
+<dl compact="compact">
+<dt> <code>deflator = <var>MODEL_EXPRESSION</var></code></dt>
+<dd><p>The expression used to detrend an endogenous variable. All trend
+variables, endogenous variables and parameters referenced in
+<var>MODEL_EXPRESSION</var> must already have been declared by the
+<code>trend_var</code>, <code>var</code> and <code>parameters</code> commands.
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var c gnp q1 q2;
+var(deflator=A) i b;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-varexo"></a><u>Command:</u> <b>varexo</b><i> <var>VARIABLE_NAME</var> [$<var>LATEX_NAME</var>$]&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This optional command declares the exogenous variables in the model.
+See section <a href="index_11.html#Conventions">Conventions</a>, for the syntax of <var>VARIABLE_NAME</var>. Optionally it
+is possible to give a LaTeX name to the variable.
+</p>
+<p>Exogenous variables are required if the user wants to be able to apply
+shocks to her model.
+</p>
+<p><code>varexo</code> commands can appear several times in the file and Dynare
+will concatenate them.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">varexo m gov;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-varexo_005fdet"></a><u>Command:</u> <b>varexo_det</b><i> <var>VARIABLE_NAME</var> [$<var>LATEX_NAME</var>$]&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This optional command declares exogenous deterministic variables in a
+stochastic model. See <a href="index_11.html#Conventions">Conventions</a>, for the syntax of
+<var>VARIABLE_NAME</var>. Optionally it is possible to give a LaTeX name to
+the variable.
+</p>
+<p>It is possible to mix deterministic and stochastic shocks to build
+models where agents know from the start of the simulation about future
+exogenous changes. In that case <code>stoch_simul</code> will compute the
+rational expectation solution adding future information to the state
+space (nothing is shown in the output of <code>stoch_simul</code>) and
+<code>forecast</code> will compute a simulation conditional on initial
+conditions and future information.
+</p>
+<p><code>varexo_det</code> commands can appear several times in the file and
+Dynare will concatenate them.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">
+varexo m gov;
+varexo_det tau;
+    
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-parameters"></a><u>Command:</u> <b>parameters</b><i> <var>PARAMETER_NAME</var> [$<var>LATEX_NAME</var>$]&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command declares parameters used in the model, in variable
+initialization or in shocks declarations. See <a href="index_11.html#Conventions">Conventions</a>, for the
+syntax of <var>PARAMETER_NAME</var>. Optionally it is possible to give a
+LaTeX name to the parameter.
+</p>
+<p>The parameters must subsequently be assigned values (see section <a href="index_14.html#Parameter-initialization">Parameter initialization</a>).
+</p>
+<p><code>parameters</code> commands can appear several times in the file and
+Dynare will concatenate them.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">parameters alpha, bet;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-change_005ftype"></a><u>Command:</u> <b>change_type</b><i> (var | varexo | varexo_det | parameters) <var>VARIABLE_NAME</var> | <var>PARAMETER_NAME</var>&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>Changes the types of the specified variables/parameters to another type:
+endogenous, exogenous, exogenous deterministic or parameter.
+</p>
+<p>It is important to understand that this command has a global effect on
+the &lsquo;<tt>.mod</tt>&rsquo; file: the type change is effective after, but also
+before, the <code>change_type</code> command. This command is typically used
+when flipping some variables for steady state calibration: typically a
+separate model file is used for calibration, which includes the list of
+variable declarations with the macro-processor, and flips some variable.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var y, w;
+parameters alpha, bet;
+&hellip;
+change_type(var) alpha, bet;
+change_type(parameters) y, w;
+</pre></td></tr></table>
+
+<p>Here, in the whole model file, <code>alpha</code> and <code>beta</code> will be
+endogenous and <code>y</code> and <code>w</code> will be parameters.
+</p>
+</dd></dl>
+
+<p><a name="predetermined_005fvariables"></a>
+</p><dl>
+<dt><a name="index-predetermined_005fvariables"></a><u>Command:</u> <b>predetermined_variables</b><i> <var>VARIABLE_NAME</var>&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>In Dynare, the default convention is that the timing of a variable
+reflects when this variable is decided. The typical example is for
+capital stock: since the capital stock used at current period is
+actually decided at the previous period, then the capital stock entering
+the production function is <code>k(-1)</code>, and the law of motion of
+capital must be written:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">k = i + (1-delta)*k(-1)
+</pre></td></tr></table>
+
+<p>Put another way, for stock variables, the default in Dynare is to use a
+&ldquo;stock at the end of the period&rdquo; concept, instead of a &ldquo;stock at the
+beginning of the period&rdquo; convention.
+</p>
+<p>The <code>predetermined_variables</code> is used to change that
+convention. The endogenous variables declared as predetermined variables
+are supposed to be decided one period ahead of all other endogenous
+variables. For stock variables, they are supposed to follow a &ldquo;stock at
+the beginning of the period&rdquo; convention.
+</p>
+<p><em>Example</em>
+</p>
+<p>The following two program snippets are strictly equivalent.
+</p>
+<p><em>Using default Dynare timing convention:</em> 
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var y, k, i;
+&hellip;
+model;
+y = k(-1)^alpha;
+k = i + (1-delta)*k(-1);
+&hellip;
+end;
+</pre></td></tr></table>
+
+<p><em>Using the alternative timing convention:</em> 
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var y, k, i;
+predetermined_variables k;
+&hellip;
+model;
+y = k^alpha;
+k(+1) = i + (1-delta)*k;
+&hellip;
+end;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-trend_005fvar"></a><u>Command:</u> <b>trend_var</b><i> (growth_factor = <var>MODEL_EXPRESSION</var>) <var>VARIABLE_NAME</var> [$<var>LATEX_NAME</var>$]&hellip;;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This optional command declares the trend variables in the
+model. See section <a href="index_11.html#Conventions">Conventions</a>, for the syntax of <var>MODEL_EXPRESSION</var> and
+<var>VARIABLE_NAME</var>. Optionally it is possible to give a LaTeX name to
+the variable.
+</p>
+<p>Trend variables are required if the user wants to be able to write a
+nonstationary model in the <code>model</code> block. The <code>trend_var</code>
+command must appear before the <code>var</code> command that references the
+trend variable.
+</p>
+<p><code>trend_var</code> commands can appear several times in the file and
+Dynare will concatenate them.
+</p>
+<p>If the model is nonstationary and is to be written as such in the
+<code>model</code> block, Dynare will need the growth factor of every trend
+variable in order to stationarize the model. The growth factor must be
+provided within the declaration of the trend variable, using the
+<code>growth_factor</code> keyword. All endogenous variables and
+parameters referenced in <var>MODEL_EXPRESSION</var> must already have been
+declared by the <code>var</code> and <code>parameters</code> commands.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">trend_var (growth_factor=gA) A;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_11.html#Conventions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_13.html#Expressions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

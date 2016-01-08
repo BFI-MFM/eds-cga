@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.7 Initial and terminal conditions</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.7 Initial and terminal conditions">
+<meta name="keywords" content="Dynare Reference Manual: 4.7 Initial and terminal conditions">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Initial-and-terminal-conditions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_16.html#Auxiliary-variables" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_18.html#Shocks-on-exogenous-variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Initial-and-terminal-conditions-1"></a>
+<h2 class="section">4.7 Initial and terminal conditions</h2>
+
+<p>For most simulation exercises, it is necessary to provide initial (and
+possibly terminal) conditions. It is also necessary to provide initial
+guess values for non-linear solvers. This section describes the
+statements used for those purposes.
+</p>
+<p>In many contexts (determistic or stochastic), it is necessary to
+compute the steady state of a non-linear model: <code>initval</code> then
+specifies numerical initial values for the non-linear solver. The
+command <code>resid</code> can be used to compute the equation residuals for
+the given initial values.
+</p>
+<p>Used in perfect foresight mode, the types of forward-loking models for
+which Dynare was designed require both initial and terminal
+conditions. Most often these initial and terminal conditions are
+static equilibria, but not necessarily.
+</p>
+<p>One typical application is to consider an economy at the equilibrium,
+trigger a shock in first period, and study the trajectory of return at
+the initial equilbrium. To do that, one needs <code>initval</code> and
+<code>shocks</code> (see section <a href="index_18.html#Shocks-on-exogenous-variables">Shocks on exogenous variables</a>.
+</p>
+<p>Another one is to study, how an economy, starting from arbitrary
+initial conditions converges toward equilibrium. To do that, one needs
+<code>initval</code> and <code>endval</code>.
+</p>
+<p>For models with lags on more than one period, the command
+<code>histval</code> permits to specify different historical initial values
+for periods before the beginning of the simulation.
+</p>
+<dl>
+<dt><a name="index-initval"></a><u>Block:</u> <b>initval</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>The <code>initval</code> block serves two purposes: declaring the initial
+(and possibly terminal) conditions in a simulation exercise, and
+providing guess values for non-linear solvers.
+</p>
+<p>This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p><em>In a deterministic (<i>i.e.</i> perfect foresight) model</em>
+</p>
+<p>First, it provides the initial conditions for all the endogenous and
+exogenous variables at all the periods preceeding the first simulation
+period (unless some of these initial values are modified by
+<code>histval</code>).
+</p>
+<p>Second, in the absence of an <code>endval</code> block, it sets the terminal
+conditions for all the periods succeeding the last simulation period.
+</p>
+<p>Third, in the absence of an <code>endval</code> block, it provides initial
+guess values at all simulation dates for the non-linear solver
+implemented in <code>simul</code>.
+</p>
+<p>For this last reason, it necessary to provide values for all the
+endogenous variables in an <code>initval</code> block (even though,
+theoretically, initial conditions are only necessary for lagged
+variables). If some exogenous variables are not mentionned in the
+<code>initval</code> block, a zero value is assumed.
+</p>
+<p>Note that if the <code>initval</code> block is immediately followed by a
+<code>steady</code> command, its semantics is changed. The <code>steady</code>
+command will compute the steady state of the model for all the
+endogenous variables, assuming that exogenous variables are kept
+constant to the value declared in the <code>initval</code> block, and using
+the values declared for the endogenous as initial guess values for the
+non-linear solver. An <code>initval</code> block followed by <code>steady</code>
+is formally equivalent to an <code>initval</code> block with the same values
+for the exogenous, and with the associated steady state values for the
+endogenous.
+</p>
+<p><em>In a stochastic model</em>
+</p>
+<p>The main purpose of <code>initval</code> is to provide initial guess values
+for the non-linear solver in the steady state computation. Note that
+if the <code>initval</code> block is not followed by <code>steady</code>, the
+steady state computation will still be triggered by subsequent
+commands (<code>stoch_simul</code>, <code>estimation</code>&hellip;).
+</p>
+<p>It is not necessary to declare <code>0</code> as initial value for exogenous
+stochastic variables, since it is the only possible value.
+</p>
+<p>This steady state will be used as the initial condition at all the
+periods preceeding the first simulation period for the two possible
+types of simulations in stochastic mode:
+</p>
+<ul>
+<li>
+in <code>stoch_simul</code>, if the <code>periods</code> options is specified
+
+</li><li>
+in <code>forecast</code> (in this case, note that it is still possible to
+modify some of these initial values with <code>histval</code>)
+</li></ul>
+
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">initval;
+c = 1.2;
+k = 12;
+x = 1;
+end;
+
+steady;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-endval"></a><u>Block:</u> <b>endval</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>The <code>endval</code> block makes only sense in a determistic model, and
+serves two purposes.
+</p>
+<p>First, it sets the terminal conditions for all the periods succeeding
+the last simulation period.
+</p>
+<p>Second, it provides initial guess values at all the simulation dates
+for the non-linear solver implemented in <code>simul</code>.
+</p>
+<p>For this last reason, it necessary to provide values for all the
+endogenous variables in an <code>endval</code> block (even though,
+theoretically, initial conditions are only necessary for forward
+variables). If some exogenous variables are not mentionned in the
+<code>endval</code> block, a zero value is assumed.
+</p>
+<p>Note that if the <code>endval</code> block is immediately followed by a
+<code>steady</code> command, its semantics is changed. The <code>steady</code>
+command will compute the steady state of the model for all the
+endogenous variables, assuming that exogenous variables are kept
+constant to the value declared in the <code>endval</code> block, and using
+the values declared for the endogenous as initial guess values for the
+non-linear solver. An <code>endval</code> block followed by <code>steady</code> is
+formally equivalent to an <code>endval</code> block with the same values for
+the exogenous, and with the associated steady state values for the
+endogenous.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var c k;
+varexo x;
+&hellip;
+initval;
+c = 1.2;
+k = 12;
+x = 1;
+end;
+
+steady;
+
+endval;
+c = 2;
+k = 20;
+x = 2;
+end;
+
+steady;
+</pre></td></tr></table>
+
+<p>The initial equilibrium is computed by <code>steady</code> for <code>x=1</code>,
+and the terminal one, for <code>x=2</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-histval"></a><u>Block:</u> <b>histval</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>In models with lags on more than one period, the <code>histval</code> block
+permits to specify different historical initial values for different
+periods.
+</p>
+<p>This block is terminated by <code>end;</code>, and contains lines of the
+form:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><var>VARIABLE_NAME</var>(<var>INTEGER</var>) = <var>EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p><var>EXPRESSION</var> is any valid expression returning a numerical value
+and can contain already initialized variable names.
+</p>
+<p>By convention in Dynare, period 1 is the first period of the
+simulation. Going backward in time, the first period before the start
+of the simulation is period <code>0</code>, then period <code>-1</code>, and so on.
+</p>
+<p>If your lagged variables are linked by identities, be careful to
+satisfy these identities when you set historical initial values.
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var x y;
+varexo e;
+
+model;
+x = y(-1)^alpha*y(-2)^(1-alpha)+e;
+&hellip;
+end;
+
+initval;
+x = 1;
+y = 1;
+e = 0.5;
+end;
+
+steady;
+
+histval;
+y(0) = 1.1;
+y(-1) = 0.9;
+end;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-resid"></a><u>Command:</u> <b>resid</b><i> ;</i></dt>
+<dd>
+<p>This command will display the residuals of the static equations of the
+model, using the values given for the endogenous in the last
+<code>initval</code> or <code>endval</code> block (or the steady state file if you
+provided one, see section <a href="index_20.html#Steady-state">Steady state</a>).
+</p>
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-initval_005ffile"></a><u>Command:</u> <b>initval_file</b><i> (filename = <var>FILENAME</var>);</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>In a deterministic setup, this command is used to specify a path for
+all endogenous and exogenous variables. The length of these paths must
+be equal to the number of simulation periods, plus the number of leads
+and the number of lags of the model (for example, with 50 simulation
+periods, in a model with 2 lags and 1 lead, the paths must have a
+length of 53). Note that these paths cover two different things:
+</p>
+<ul>
+<li>
+the constraints of the problem, which are given by the path for
+exogenous and the initial and terminal values for endogenous
+
+</li><li>
+the initial guess for the non-linear solver, which is given by the
+path for endogenous variables for the simulation periods (excluding
+initial and terminal conditions)
+</li></ul>
+
+<p>The command accepts three file formats:
+</p>
+<ul>
+<li>
+M-file (extension &lsquo;<tt>.m</tt>&rsquo;): for each endogenous and exogenous
+variable, the file must contain a row vector of the same name.
+
+</li><li>
+MAT-file (extension &lsquo;<tt>.mat</tt>&rsquo;): same as for M-files.
+
+</li><li>
+Excel file (extension &lsquo;<tt>.xls</tt>&rsquo;): for each endogenous and exogenous,
+the file must contain a column of the same name (not supported under Octave).
+</li></ul>
+
+<p><em>Warning</em>
+</p>
+<p>The extension must be omitted in the command argument. Dynare will
+automatically figure out the extension and select the appropriate file
+type.
+</p>
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_16.html#Auxiliary-variables" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_18.html#Shocks-on-exogenous-variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

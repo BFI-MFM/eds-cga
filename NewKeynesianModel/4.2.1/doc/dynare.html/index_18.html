@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.8 Shocks on exogenous variables</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.8 Shocks on exogenous variables">
+<meta name="keywords" content="Dynare Reference Manual: 4.8 Shocks on exogenous variables">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Shocks-on-exogenous-variables"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_17.html#Initial-and-terminal-conditions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_19.html#Other-general-declarations" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Shocks-on-exogenous-variables-1"></a>
+<h2 class="section">4.8 Shocks on exogenous variables</h2>
+
+<p>In a deterministic context, when one wants to study the transition of
+one equilibrium position to another, it is equivalent to analyze the
+consequences of a permanent shock and this in done in Dynare through
+the proper use of <code>initval</code> and <code>endval</code>.
+</p>
+<p>Another typical experiment is to study the effects of a temporary
+shock after which the system goes back to the original equilibrium (if
+the model is stable&hellip;). A temporary shock is a temporary change of
+value of one or several exogenous variables in the model. Temporary
+shocks are specified with the command <code>shocks</code>.
+</p>
+<p>In a stochastic framework, the exogenous variables take random values
+in each period. In Dynare, these random values follow a normal
+distribution with zero mean, but it belongs to the user to specify the
+variability of these shocks. The non-zero elements of the matrix of
+variance-covariance of the shocks can be entered with the <code>shocks</code>
+command. Or, the entire matrix can be direclty entered with
+<code>Sigma_e</code> (this use is however deprecated).
+</p>
+<p>If the variance of an exogenous variable is set to zero, this variable
+will appear in the report on policy and transition functions, but
+isn&rsquo;t used in the computation of moments and of Impulse Response
+Functions. Setting a variance to zero is an easy way of removing an
+exogenous shock.
+</p>
+<dl>
+<dt><a name="index-shocks"></a><u>Block:</u> <b>shocks</b><i> ;</i></dt>
+<dd>
+<p><em>In deterministic context</em>
+</p>
+<p>For deterministic simulations, the <code>shocks</code> block specifies
+temporary changes in the value of exogenous variables. For
+permanent shocks, use an <code>endval</code> block.
+</p>
+<p>The block should contain one or more occurrences of the following
+group of three lines:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var <var>VARIABLE_NAME</var>; 
+periods <var>INTEGER</var>[:<var>INTEGER</var>] [[,] <var>INTEGER</var>[:<var>INTEGER</var>]]&hellip;;
+values <var>DOUBLE</var> | (<var>EXPRESSION</var>)  [[,] <var>DOUBLE</var> | (<var>EXPRESSION</var>) ]&hellip;;
+</pre></td></tr></table>
+
+<p>It is possible to specify shocks which last several periods and which can
+vary over time. The <code>periods</code> keyword accepts a list of
+several dates or date ranges, which must be matched by as many shock values
+in the <code>values</code> keyword. Note that a range in the
+<code>periods</code> keyword must be matched by only one value in the
+<code>values</code> keyword: this syntax means that the exogenous variable
+will have a constant value over the range.
+</p>
+<p>Note that shock values are not restricted to numerical constants:
+arbitrary expressions are also allowed, but you have to enclose them
+inside parentheses.
+</p>
+<p>Here is an example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">shocks;
+var e;
+periods 1;
+values 0.5;
+var u;
+periods 4:5;
+values 0;
+var v;
+periods 4:5 6 7:9;
+values 1 1.1 0.9;
+var w;
+periods 1 2;
+values (1+p) (exp(z));
+end;
+</pre></td></tr></table>
+
+<p><em>In stochastic context</em>
+</p>
+<p>For stochastic simulations, the <code>shocks</code> block specifies the non
+zero elements of the covariance matrix of the shocks of exogenous
+variables.
+</p>
+<p>You can use the following types of entries in the block:
+</p>
+<dl compact="compact">
+<dt> <code>var <var>VARIABLE_NAME</var>; stderr <var>EXPRESSION</var>;</code></dt>
+<dd><p>Specifies the standard error of a variable.
+</p>
+</dd>
+<dt> <code>var <var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;</code></dt>
+<dd><p>Specifies the variance error of a variable.
+</p>
+</dd>
+<dt> <code>var <var>VARIABLE_NAME</var>, <var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;</code></dt>
+<dd><p>Specifies the covariance of two variables.
+</p>
+</dd>
+<dt> <code>corr <var>VARIABLE_NAME</var>, <var>VARIABLE_NAME</var> = <var>EXPRESSION</var>;</code></dt>
+<dd><p>Specifies the correlation of two variables.
+</p>
+</dd>
+</dl>
+
+<p>In an estimation context, it is also possible to specify variances and
+covariances on endogenous variables: in that case, these values are
+interpreted as the calibration of the measurement errors on these
+variables.
+</p>
+<p>Here is an example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">shocks;
+var e = 0.000081;
+var u; stderr 0.009;
+corr e, u = 0.8;
+var v, w = 2;
+end;
+</pre></td></tr></table>
+
+<p><em>Mixing determininistic and stochastic shocks</em>
+</p>
+<p>It is possible to mix deterministic and stochastic shocks to build
+models where agents know from the start of the simulation about future
+exogenous changes. In that case <code>stoch_simul</code> will compute the
+rational expectation solution adding future information to the state
+space (nothing is shown in the output of <code>stoch_simul</code>) and
+<code>forecast</code> will compute a simulation conditional on initial
+conditions and future information.
+</p>
+<p>Here is an example:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">varexo_det tau;
+varexo e;
+
+&hellip;
+
+shocks;
+var e; stderr 0.01;
+var tau;
+periods 1:9;
+values -0.15;
+end;
+
+stoch_simul(irf=0);
+
+forecast;
+</pre></td></tr></table>
+
+</dd></dl>
+
+
+<dl>
+<dt><a name="index-mshocks"></a><u>Block:</u> <b>mshocks</b><i> ;</i></dt>
+<dd>
+<p>The purpose of this block is similar to that of the <code>shocks</code>
+block for deterministic shocks, except that the numeric values given
+will be interpreted in a multiplicative way. For example, if a value
+of <code>1.05</code> is given as shock value for some exogenous at some
+date, it means 5% above its steady state value (as given by the last
+<code>initval</code> or <code>endval</code> block).
+</p>
+<p>The syntax is the same than <code>shocks</code> in a deterministic context.
+</p>
+<p>This command is only meaningful in two situations:
+</p>
+<ul>
+<li>
+on exogenous variables with a non-zero steady state, in a deterministic setup,
+
+</li><li>
+on deterministic exogenous variables with a non-zero steady state, in
+a stochastic setup.
+</li></ul>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-Sigma_005fe"></a><u>Special variable:</u> <b>Sigma_e</b></dt>
+<dd>
+<p><em>Warning</em>
+</p>
+<p><strong>The use of this special variable is deprecated and is strongly
+discouraged.</strong> You should use a <code>shocks</code> block instead.
+</p>
+<p><em>Description</em>
+</p>
+<p>This special variable specifies directly the covariance matrix of the
+stochastic shocks, as an upper (or lower) triangular matrix. Dynare
+builds the corresponding symmetrix matrix. Each row of the triangular
+matrix, except the last one, must be terminated by a semi-colon
+<code>;</code>. For a given element, an arbitrary <var>EXPRESSION</var> is
+allowed (instead of a simple constant), but in that case you need to
+enclose the expression in parentheses. <em>The order of the
+covariances in the matrix is the same as the one used in the
+<code>varexo</code> declaration.</em>
+</p>
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">
+varexo u, e;
+&hellip;
+Sigma_e = [ 0.81 (phi*0.9*0.009);
+            0.000081];
+</pre></td></tr></table>
+
+<p>This sets the variance of <code>u</code> to 0.81, the variance of <code>e</code>
+to 0.000081, and the correlation between <code>e</code> and <code>u</code> to
+<code>phi</code>.
+</p>
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_17.html#Initial-and-terminal-conditions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_19.html#Other-general-declarations" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

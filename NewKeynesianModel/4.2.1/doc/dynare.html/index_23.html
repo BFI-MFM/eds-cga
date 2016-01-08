@@ -1,0 +1,941 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.13 Stochastic solution and simulation</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.13 Stochastic solution and simulation">
+<meta name="keywords" content="Dynare Reference Manual: 4.13 Stochastic solution and simulation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Stochastic-solution-and-simulation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_22.html#Deterministic-simulation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Computing-the-stochastic-solution" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Stochastic-solution-and-simulation-1"></a>
+<h2 class="section">4.13 Stochastic solution and simulation</h2>
+
+<p>In a stochastic context, Dynare computes one or several simulations
+corresponding to a random draw of the shocks. Dynare uses a Taylor
+approximation, up to third order, of the expectation functions (see
+<cite>Judd (1996)</cite>, <cite>Collard and Juillard (2001a)</cite>, <cite>Collard
+and Juillard (2001b)</cite>, and <cite>Schmitt-Grohé and Uríbe (2004)</cite>). The
+details of the Dynare implementation of the first order solution are
+given in <cite>Villemot (2011)</cite>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Computing-the-stochastic-solution">4.13.1 Computing the stochastic solution</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Typology-and-ordering-of-variables">4.13.2 Typology and ordering of variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  
+</td></tr>
+<tr><td align="left" valign="top"><a href="#First-order-approximation">4.13.3 First order approximation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">   
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Second-order-approximation">4.13.4 Second order approximation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Third-order-approximation">4.13.5 Third order approximation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">   
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Computing-the-stochastic-solution"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Typology-and-ordering-of-variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Computing-the-stochastic-solution-1"></a>
+<h3 class="subsection">4.13.1 Computing the stochastic solution</h3>
+
+<dl>
+<dt><a name="index-stoch_005fsimul"></a><u>Command:</u> <b>stoch_simul</b><i> [<var>VARIABLE_NAME</var>&hellip;];</i></dt>
+<dt><a name="index-stoch_005fsimul-1"></a><u>Command:</u> <b>stoch_simul</b><i> (<var>OPTIONS</var>&hellip;) [<var>VARIABLE_NAME</var>&hellip;];</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p><code>stoch_simul</code> solves a stochastic (<i>i.e.</i> rational
+expectations) model, using perturbation techniques.
+</p>
+<p>More precisely, <code>stoch_simul</code> computes a Taylor approximation of
+the decision and transition functions for the model. Using this, it
+computes impulse response functions and various descriptive statistics
+(moments, variance decomposition, correlation and autocorrelation
+coefficients). For correlated shocks, the variance decomposition is
+computed as in the VAR literature through a Cholesky decomposition of
+the covariance matrix of the exogenous variables. When the shocks are
+correlated, the variance decomposition depends upon the order of the
+variables in the <code>varexo</code> command.
+</p>
+<p>The Taylor approximation is computed around the steady state
+(see section <a href="index_20.html#Steady-state">Steady state</a>).
+</p>
+<p>The IRFs are computed as the difference between the trajectory of a
+variable following a shock at the beginning of period 1 and its steady
+state value.
+</p>
+<p>Variance decomposition, correlation, autocorrelation are only
+displayed for variables with positive variance. Impulse response
+functions are only plotted for variables with response larger than
+<SPAN CLASS="MATH"><IMG
+ WIDTH="44" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_9.png"
+ ALT="$10^{-10}$"></SPAN>.
+</p>
+<p>Variance decomposition is computed relative to the sum of the
+contribution of each shock. Normally, this is of course equal to
+aggregate variance, but if a model generates very large variances, it
+may happen that, due to numerical error, the two differ by a
+significant amount. Dynare issues a warning if the maximum relative
+difference between the sum of the contribution of each shock and
+aggregate variance is larger than 0.01%.
+</p>
+<p>Currently, the IRFs are only plotted for 12 variables. Select the ones
+you want to see, if your model contains more than 12 endogenous
+variables.
+</p>
+<p>The covariance matrix of the shocks is specified with the
+<code>shocks</code> command (see section <a href="index_18.html#Shocks-on-exogenous-variables">Shocks on exogenous variables</a>).
+</p>
+<p>When a list of <var>VARIABLE_NAME</var> is specified, results are displayed
+only for these variables.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>ar = <var>INTEGER</var></code></dt>
+<dd><p><a name="ar"></a>
+Order of autocorrelation coefficients to compute and to print. Default: <code>5</code>.
+</p>
+</dd>
+<dt> <code>drop = <var>INTEGER</var></code></dt>
+<dd><p>Number of points dropped at the beginning of simulation before
+computing the summary statistics. Default: <code>100</code>.
+</p>
+</dd>
+<dt> <code>hp_filter = <var>INTEGER</var></code></dt>
+<dd><p>Uses HP filter with <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_10.png"
+ ALT="$\lambda$"></SPAN> = <var>INTEGER</var> before computing
+moments. Default: no filter.
+</p>
+</dd>
+<dt> <code>hp_ngrid = <var>INTEGER</var></code></dt>
+<dd><p>Number of points in the grid for the discrete Inverse Fast Fourier
+Transform used in the HP filter computation. It may be necessary to
+increase it for highly autocorrelated processes. Default: <code>512</code>.
+</p>
+</dd>
+<dt> <code>irf = <var>INTEGER</var></code></dt>
+<dd><p><a name="irf"></a> 
+Number of periods on which to compute the IRFs. Setting <code>irf=0</code>,
+suppresses the plotting of IRF&rsquo;s. Default: <code>40</code>.
+</p>
+</dd>
+<dt> <code>relative_irf</code></dt>
+<dd><p>Requests the computation of normalized IRFs in percentage of the
+standard error of each shock.
+</p>
+</dd>
+<dt> <code>linear</code></dt>
+<dd><p>Indicates that the original model is linear (put it rather in the
+<code>model</code> command).
+</p>
+</dd>
+<dt> <code>nocorr</code></dt>
+<dd><p>Don&rsquo;t print the correlation matrix (printing them is the default).
+</p>
+</dd>
+<dt> <code>nofunctions</code></dt>
+<dd><p>Don&rsquo;t print the coefficients of the approximated solution (printing
+them is the default).
+</p>
+</dd>
+<dt> <code>nomoments</code></dt>
+<dd><p>Don&rsquo;t print moments of the endogenous variables (printing them is the
+default).
+</p>
+</dd>
+<dt> <code>nograph.</code></dt>
+<dd><p><a name="nograph"></a>
+Doesn&rsquo;t do the graphs. Useful for loops.
+</p>
+</dd>
+<dt> <code>noprint</code></dt>
+<dd><p>Don&rsquo;t print anything. Useful for loops.
+</p>
+</dd>
+<dt> <code>print</code></dt>
+<dd><p>Print results (opposite of <code>noprint</code>).
+</p>
+</dd>
+<dt> <code>order = <var>INTEGER</var></code></dt>
+<dd><p><a name="order"></a>
+Order of Taylor approximation. Acceptable values are <code>1</code>,
+<code>2</code> and <code>3</code>. Note that for third order,
+<code>k_order_solver</code> option is implied and only empirical moments are
+available (you must provide a value for <code>periods</code>
+option). Default: <code>2</code>.
+</p>
+</dd>
+<dt> <code>k_order_solver</code></dt>
+<dd><p><a name="k_005forder_005fsolver"></a>
+Use a k-order solver (implemented in C++) instead of the default
+Dynare solver. This option is not yet compatible with the
+<code>bytecode</code> option (see section <a href="index_15.html#Model-declaration">Model declaration</a>. Default: disabled
+for order 1 and 2, enabled otherwise
+</p>
+</dd>
+<dt> <code>periods = <var>INTEGER</var></code></dt>
+<dd><a name="index-oo_005f_002eendo_005fsimul-1"></a>
+<p>If different from zero, empirical moments will be computed instead of
+theoretical moments. The value of the option specifies the number of
+periods to use in the simulations. Values of the <code>initval</code> block,
+possibly recomputed by <code>steady</code>, will be used as starting point
+for the simulation. The simulated endogenous variables are made
+available to the user in a vector for each variable and in the global
+matrix <code>oo_.endo_simul</code> (see <a href="index_22.html#oo_005f_002eendo_005fsimul">oo_.endo_simul</a>). Default: <code>0</code>.
+</p>
+</dd>
+<dt> <code>qz_criterium = <var>DOUBLE</var></code></dt>
+<dd><p>Value used to split stable from unstable eigenvalues in reordering the
+Generalized Schur decomposition used for solving 1^st order
+problems. Default: <code>1.000001</code> (except when estimating with
+<code>lik_init</code> option equal to <code>1</code>: the default is
+<code>0.999999</code> in that case; see section <a href="index_24.html#Estimation">Estimation</a>).
+</p>
+</dd>
+<dt> <code>replic = <var>INTEGER</var></code></dt>
+<dd><p>Number of simulated series used to compute the IRFs. Default: <code>1</code>
+if <code>order</code>=<code>1</code>, and <code>50</code> otherwise.
+</p>
+</dd>
+<dt> <code>solve_algo = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="index_20.html#solve_005falgo">solve_algo</a>, for the possible values and their meaning.
+</p>
+</dd>
+<dt> <code>aim_solver</code></dt>
+<dd><p><a name="aim_005fsolver"></a>
+Use the Anderson-Moore Algorithm (AIM) to compute the decision rules,
+instead of using Dynare&rsquo;s default method based on a generalized Schur
+decomposition. This option is only valid for first order
+approximation. See
+<a href="http://www.federalreserve.gov/Pubs/oss/oss4/aimindex.html">AIM website</a> for more details on the algorithm.
+</p>
+</dd>
+<dt> <code>conditional_variance_decomposition = <var>INTEGER</var></code></dt>
+<dd><p><a name="conditional_005fvariance_005fdecomposition-_003d-INTEGER"></a>
+See below.
+</p>
+</dd>
+<dt> <code>conditional_variance_decomposition = [<var>INTEGER1</var>:<var>INTEGER2</var>]</code></dt>
+<dd><p>See below.
+</p>
+</dd>
+<dt> <code>conditional_variance_decomposition = [<var>INTEGER1</var> <var>INTEGER2</var> &hellip;]</code></dt>
+<dd><p>Computes a conditional variance decomposition for the specified
+period(s). Conditional variances are given by
+<!-- MATH
+ $var(y_{t+k}|t)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="81" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_11.png"
+ ALT="$var(y_{t+k}\vert t)$"></SPAN>. For period 1, the conditional variance
+decomposition provides the decomposition of the effects of shocks upon
+impact.
+</p>
+</dd>
+<dt> <code>pruning</code></dt>
+<dd><p>Discard higher order terms when iteratively computing simulations of
+the solution, as in <cite>Schaumburg and Sims (2008)</cite>.
+</p>
+</dd>
+<dt> <code>partial_information</code></dt>
+<dd><p><a name="partial_005finformation"></a>
+Computes the solution of the model under partial information, along
+the lines of <cite>Currie and Levine (1986)</cite>. Agents are supposed to
+observe only some variables of the economy. The set of observed
+variables is declared using the <code>varobs</code> command. Note that if
+<code>varobs</code> is not present or contains all endogenous variables, then
+this is the full information case and this option has no effect.
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p>This command sets <code>oo_.dr</code>, <code>oo_.mean</code>, <code>oo_.var</code> and
+<code>oo_.autocorr</code>, which are described below.
+</p>
+<p>If option <code>periods</code> is present, sets <code>oo_.endo_simul</code>
+(see <a href="index_22.html#oo_005f_002eendo_005fsimul">oo_.endo_simul</a>), and also saves the simulated variables in
+MATLAB/Octave vectors of the global workspace with the same name as
+the endogenous variables.
+</p>
+<p>If options <code>irf</code> is different from zero, sets <code>oo_.irfs</code>
+(see below) and also saves the IRFs in MATLAB/Octave vectors of
+the global workspace (this latter way of accessing the IRFs is
+deprecated and will disappear in a future version).
+</p>
+
+<p><em>Example 1</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">shocks;
+var e;
+stderr 0.0348;
+end;
+
+stoch_simul;
+</pre></td></tr></table>
+
+<p>Performs the simulation of the 2nd order approximation of a model
+with a single stochastic shock <code>e</code>, with a standard error of
+0.0348.
+</p>
+<p><em>Example 2</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">stoch_simul(linear,irf=60) y k;
+</pre></td></tr></table>
+
+<p>Performs the simulation of a linear model and displays impulse
+response functions on 60 periods for variables <code>y</code> and <code>k</code>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002emean"></a><u>MATLAB/Octave variable:</u> <b>oo_.mean</b></dt>
+<dd><p>After a run of <code>stoch_simul</code>, contains the mean of the endogenous
+variables. Contains theoretical mean if the <code>periods</code> option is
+not present, and empirical mean otherwise. The variables are arranged
+in declaration order.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002evar"></a><u>MATLAB/Octave variable:</u> <b>oo_.var</b></dt>
+<dd><p>After a run of <code>stoch_simul</code>, contains the variance-covariance of
+the endogenous variables. Contains theoretical variance if the
+<code>periods</code> option is not present, and empirical variance
+otherwise. The variables are arranged in declaration order.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eautocorr"></a><u>MATLAB/Octave variable:</u> <b>oo_.autocorr</b></dt>
+<dd><p>After a run of <code>stoch_simul</code>, contains a cell array of the
+autocorrelation matrices of the endogenous variables. The element
+number of the matrix in the cell array corresponds to the order of
+autocorrelation. The option <code>ar</code> specifies the number of
+autocorrelation matrices available. Contains theoretical
+autocorrelations if the <code>periods</code> option is not present, and
+empirical autocorrelations otherwise.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002eirfs"></a><u>MATLAB/Octave variable:</u> <b>oo_.irfs</b></dt>
+<dd><p>After a run of <code>stoch_simul</code> with option <code>irf</code> different
+from zero, contains the impulse responses, with the following naming
+convention: <code><var>VARIABLE_NAME</var>_<var>SHOCK_NAME</var></code>.
+</p>
+<p>For example, <code>oo_.irfs.gnp_ea</code> contains the effect on <code>gnp</code>
+of a one standard deviation shock on <code>ea</code>.
+</p></dd></dl>
+
+<a name="index-oo_005f_002edr"></a>
+<p>The approximated solution of a model takes the form of a set of decision
+rules or transition equations expressing the current value of the endogenous
+variables of the model as function of the previous state of the model and
+shocks oberved at the beginning of the period. The decision rules are stored
+in the structure <code>oo_.dr</code> which is described below.
+</p>
+<hr size="6">
+<a name="Typology-and-ordering-of-variables"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Computing-the-stochastic-solution" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#First-order-approximation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Typology-and-ordering-of-variables-1"></a>
+<h3 class="subsection">4.13.2 Typology and ordering of variables</h3>
+
+<p>Dynare distinguishes four types of endogenous variables:
+</p>
+<dl compact="compact">
+<dt> <em>Purely backward (or purely predetermined) variables</em></dt>
+<dd><a name="index-oo_005f_002edr_002enpred"></a>
+<a name="index-oo_005f_002edr_002enboth"></a>
+<p>Those that appear only at current and past period in the model, but
+not at future period (<i>i.e.</i> at <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_12.png"
+ ALT="$t$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_13.png"
+ ALT="$t-1$"></SPAN> but not
+<SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_14.png"
+ ALT="$t+1$"></SPAN>). The number of such variables is equal to
+<code>oo_.dr.npred - oo_.dr.nboth</code>.
+</p>
+</dd>
+<dt> <em>Purely forward variables</em></dt>
+<dd><a name="index-oo_005f_002edr_002enfwrd"></a>
+<p>Those that appear only at current and future period in the model, but
+not at past period (<i>i.e.</i> at <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_12.png"
+ ALT="$t$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_14.png"
+ ALT="$t+1$"></SPAN> but not
+<SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_13.png"
+ ALT="$t-1$"></SPAN>). The number of such variables is stored in
+<code>oo_.dr.nfwrd</code>.
+</p>
+</dd>
+<dt> <em>Mixed variables</em></dt>
+<dd><a name="index-oo_005f_002edr_002enboth-1"></a>
+<p>Those that appear at current, past and future period in the model
+(<i>i.e.</i> at <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_12.png"
+ ALT="$t$"></SPAN>, <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_14.png"
+ ALT="$t+1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_13.png"
+ ALT="$t-1$"></SPAN>). The number of such
+variables is stored in <code>oo_.dr.nboth</code>.
+</p>
+</dd>
+<dt> <em>Static variables</em></dt>
+<dd><a name="index-oo_005f_002edr_002enstatic"></a>
+<p>Those that appear only at current, not past and future period in the
+model (<i>i.e.</i> only at <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_12.png"
+ ALT="$t$"></SPAN>, not at <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_14.png"
+ ALT="$t+1$"></SPAN> or
+<SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_13.png"
+ ALT="$t-1$"></SPAN>). The number of such variables is stored in
+<code>oo_.dr.nstatic</code>.
+</p></dd>
+</dl>
+
+<p>Note that all endogenous variables fall into one of these four
+categories, since after the creation of auxiliary variables
+(see section <a href="index_16.html#Auxiliary-variables">Auxiliary variables</a>), all endogenous have at most one lead
+and one lag. We therefore have the following identity:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">oo_.dr.npred + oo_.dr.nfwrd + oo_.dr.nstatic = M_.endo_nbr
+</pre></td></tr></table>
+
+<p>Internally, Dynare uses two orderings of the endogenous variables: the
+order of declaration (which is reflected in <code>M_.endo_names</code>), and
+an order based on the four types described above, which we will call
+the DR-order (&ldquo;DR&rdquo; stands for decision rules). Most of the time, the
+declaration order is used, but for elements of the decision rules, the
+DR-order is used.
+</p>
+<p>The DR-order is the following: static variables appear first, then purely
+backward variables, then mixed variables, and finally purely forward
+variables. Inside each category, variables are arranged according to the
+declaration order.
+</p>
+<a name="index-oo_005f_002edr_002eorder_005fvar"></a>
+<a name="index-oo_005f_002edr_002einv_005forder_005fvar"></a>
+<p>Variable <code>oo_.dr.order_var</code> maps DR-order to declaration
+order, and variable <code>oo_.dr.inv_order_var</code> contains the
+inverse map. In other words, the k-th variable in the DR-order corresponds
+to the endogenous variable numbered <code>oo_.dr_order_var(k)</code> in
+declaration order. Conversely, k-th declared variable is numbered
+<code>oo_.dr.inv_order_var(k)</code> in DR-order.
+</p>
+<a name="index-oo_005f_002edr_002enpred-1"></a>
+<p>Finally, the state variables of the model are the purely backward variables
+and the mixed variables. They are orderer in DR-order when they appear in
+decision rules elements. There are <code>oo_.dr.npred</code> such
+variables.
+</p>
+<hr size="6">
+<a name="First-order-approximation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Typology-and-ordering-of-variables" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Second-order-approximation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="First-order-approximation-1"></a>
+<h3 class="subsection">4.13.3 First order approximation</h3>
+
+<p>The approximation has the form:
+</p>
+<p><!-- MATH
+ $y_t = y^s + A y^h_{t-1} + B u_t$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="162" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_15.png"
+ ALT="$y_t = y^s + A y^h_{t-1} + B u_t$"></SPAN>
+</p>
+<p>where <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_16.png"
+ ALT="$y^s$"></SPAN> is the steady state value of <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_17.png"
+ ALT="$y$"></SPAN> and
+<SPAN CLASS="MATH"><IMG
+ WIDTH="90" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_18.png"
+ ALT="$y^h_t=y_t-y^s$"></SPAN>.
+</p>
+<p>The coefficients of the decision rules are stored as follows:
+</p>
+<ul>
+<li>
+<a name="index-oo_005f_002edr_002eys"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_16.png"
+ ALT="$y^s$"></SPAN> is stored in <code>oo_.dr.ys</code>. The vector rows
+correspond to all endogenous in the declaration order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eghx"></a>
+A is stored in <code>oo_.dr.ghx</code>. The matrix rows correspond to all
+endogenous in DR-order. The matrix columns correspond to state
+variables in DR-order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eghu"></a>
+B is stored <code>oo_.dr.ghu</code>. The matrix rows correspond to all
+endogenous in DR-order. The matrix columns correspond to exogenous
+variables in declaration order.
+</li></ul>
+
+<hr size="6">
+<a name="Second-order-approximation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#First-order-approximation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Third-order-approximation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Second-order-approximation-1"></a>
+<h3 class="subsection">4.13.4 Second order approximation</h3>
+
+<p>The approximation has the form:
+</p>
+<p><!-- MATH
+ $y_t = y^s + 0.5 \Delta^2 +
+A y^h_{t-1} + B u_t + 0.5 C
+(y^h_{t-1}\otimes y^h_{t-1}) + 0.5 D
+(u_t \otimes u_t) + E
+(y^h_{t-1} \otimes u_t)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="585" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_19.png"
+ ALT="$y_t = y^s + 0.5 \Delta^2 +
+A y^h_{t-1} + B u_t + 0.5 C
+(y^h_{t-1}\otimes y^h_{t-1}) + 0.5 D
+(u_t \otimes u_t) + E
+(y^h_{t-1} \otimes u_t)$"></SPAN>
+</p>
+<p>where <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_16.png"
+ ALT="$y^s$"></SPAN> is the steady state value of <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_17.png"
+ ALT="$y$"></SPAN>,
+<SPAN CLASS="MATH"><IMG
+ WIDTH="90" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_18.png"
+ ALT="$y^h_t=y_t-y^s$"></SPAN>, and <SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_20.png"
+ ALT="$\Delta^2$"></SPAN> is the shift effect of the
+variance of future shocks.
+</p>
+<p>The coefficients of the decision rules are stored in the variables
+described for first order approximation, plus the following variables:
+</p>
+<ul>
+<li>
+<a name="index-oo_005f_002edr_002eghs2"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="25" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_20.png"
+ ALT="$\Delta^2$"></SPAN> is stored in <code>oo_.dr.ghs2</code>. The vector rows
+correspond to all endogenous in DR-order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eghxx"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_21.png"
+ ALT="$C$"></SPAN> is stored in <code>oo_.dr.ghxx</code>. The matrix rows
+correspond to all endogenous in DR-order. The matrix columns correspond
+to the Kronecker product of the vector of state variables in DR-order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eghuu"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="18" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_22.png"
+ ALT="$D$"></SPAN> is stored in <code>oo_.dr.ghuu</code>. The matrix rows correspond
+to all endogenous in DR-order. The matrix columns correspond to the
+Kronecker product of exogenous variables in declaration order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eghxu"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_23.png"
+ ALT="$E$"></SPAN> is stored in <code>oo_.dr.ghxu</code>. The matrix rows correspond
+to all endogenous in DR-order. The matrix columns correspond to the
+Kronecker product of the vector of state variables (in DR-order) by
+the vector of exogenous variables (in declaration order).
+</li></ul>
+
+<hr size="6">
+<a name="Third-order-approximation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Second-order-approximation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_24.html#Estimation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Third-order-approximation-1"></a>
+<h3 class="subsection">4.13.5 Third order approximation</h3>
+
+<p>The approximation has the form:
+</p>
+<p><!-- MATH
+ $y_t = y^s + G_0 +
+G_1 z_t +
+G_2 (z_t \otimes z_t) +
+G_3 (z_t \otimes z_t \otimes z_t)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="372" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_24.png"
+ ALT="$y_t = y^s + G_0 +
+G_1 z_t +
+G_2 (z_t \otimes z_t) +
+G_3 (z_t \otimes z_t \otimes z_t)$"></SPAN>
+</p>
+<p>where <SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_16.png"
+ ALT="$y^s$"></SPAN> is the steady state value of <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_17.png"
+ ALT="$y$"></SPAN>, and <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_25.png"
+ ALT="$z_t$"></SPAN> is a
+vector consisting of the deviation from the steady state of the state
+variables (in DR-order) at date <SPAN CLASS="MATH"><IMG
+ WIDTH="37" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_13.png"
+ ALT="$t-1$"></SPAN> followed by the exogenous variables at
+date <SPAN CLASS="MATH"><IMG
+ WIDTH="10" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_12.png"
+ ALT="$t$"></SPAN> (in declaration order). The vector <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_25.png"
+ ALT="$z_t$"></SPAN> is
+therefore of size <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_26.png"
+ ALT="$n_z$"></SPAN> = <code>oo_.dr.npred +
+M_.exo_nbr</code>.
+</p>
+<p>The coefficients of the decision rules are stored as follows:
+</p>
+<ul>
+<li>
+<a name="index-oo_005f_002edr_002eys-1"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="19" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_16.png"
+ ALT="$y^s$"></SPAN> is stored in <code>oo_.dr.ys</code>. The vector rows
+correspond to all endogenous in the declaration order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eg_005f0"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_27.png"
+ ALT="$G_0$"></SPAN> is stored in <code>oo_.dr.g_0</code>. The
+vector rows correspond to all endogenous in DR-order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eg_005f1"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_28.png"
+ ALT="$G_1$"></SPAN> is stored in <code>oo_.dr.g_1</code>. The matrix rows correspond
+to all endogenous in DR-order. The matrix columns correspond to state
+variables in DR-order, followed by exogenous in declaration order.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eg_005f2"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_29.png"
+ ALT="$G_2$"></SPAN> is stored in <code>oo_.dr.g_2</code>. The matrix rows correspond
+to all endogenous in DR-order. The matrix columns correspond to the
+Kronecker product of state variables (in DR-order), followed by
+exogenous (in declaration order). Note that the Kronecker product is
+stored in a folded way, <i>i.e.</i> symmetric elements are stored only
+once, which implies that the matrix has <SPAN CLASS="MATH"><IMG
+ WIDTH="94" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_30.png"
+ ALT="$n_z(n_z+1)/2$"></SPAN> columns.  More
+precisely, each column of this matrix corresponds to a pair <SPAN CLASS="MATH"><IMG
+ WIDTH="49" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_31.png"
+ ALT="$(i_1, i_2)$"></SPAN>
+where each index represents an element of <SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_25.png"
+ ALT="$z_t$"></SPAN> and is therefore between
+<SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_32.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_26.png"
+ ALT="$n_z$"></SPAN>. Only non-decreasing pairs are stored, <i>i.e.</i> those for
+which <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_33.png"
+ ALT="$i_1 \leq i_2$"></SPAN>. The columns are arranged in the lexicographical order
+of non-decreasing pairs. Also note that for those pairs where <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_34.png"
+ ALT="$i_1 \neq
+i_2$"></SPAN>, since the element is stored only once but appears two times in
+the unfolded <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_29.png"
+ ALT="$G_2$"></SPAN> matrix, it must be multiplied by 2 when computing the
+decision rules.
+
+</li><li>
+<a name="index-oo_005f_002edr_002eg_005f3"></a>
+<SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_35.png"
+ ALT="$G_3$"></SPAN> is stored in <code>oo_.dr.g_3</code>. The matrix rows correspond
+to all endogenous in DR-order. The matrix columns correspond to the
+third Kronecker power of state variables (in DR-order), followed by
+exogenous (in declaration order). Note that the third Kronecker power
+is stored in a folded way, <i>i.e.</i> symmetric elements are stored only
+once, which implies that the matrix has <!-- MATH
+ $n_z(n_z+1)(n_z+2)/6$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="150" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_36.png"
+ ALT="$n_z(n_z+1)(n_z+2)/6$"></SPAN>
+columns.  More precisely, each column of this matrix corresponds to a
+tuple <!-- MATH
+ $(i_1, i_2, i_3)$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="68" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_37.png"
+ ALT="$(i_1, i_2, i_3)$"></SPAN> where each index represents an element of
+<SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_25.png"
+ ALT="$z_t$"></SPAN> and is therefore between <SPAN CLASS="MATH"><IMG
+ WIDTH="12" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_32.png"
+ ALT="$1$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="21" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_26.png"
+ ALT="$n_z$"></SPAN>. Only
+non-decreasing tuples are stored, <i>i.e.</i> those for which <!-- MATH
+ $i_1
+\leq i_2 \leq i_3$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="84" HEIGHT="28" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_38.png"
+ ALT="$i_1
+\leq i_2 \leq i_3$"></SPAN>. The columns are arranged in the lexicographical
+order of non-decreasing tuples. Also note that for tuples that have
+three distinct indices (<i>i.e.</i> <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_34.png"
+ ALT="$i_1 \neq
+i_2$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_39.png"
+ ALT="$i_1
+\neq i_3$"></SPAN> and <SPAN CLASS="MATH"><IMG
+ WIDTH="51" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_40.png"
+ ALT="$i_2 \neq i_3$"></SPAN>, since these elements are stored
+only once but appears six times in the unfolded <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_35.png"
+ ALT="$G_3$"></SPAN> matrix,
+they must be multiplied by 6 when computing the decision
+rules. Similarly, for those tuples that have two equal indices
+(<i>i.e.</i> of the form <SPAN CLASS="MATH"><IMG
+ WIDTH="54" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_41.png"
+ ALT="$(a,a,b)$"></SPAN> or <SPAN CLASS="MATH"><IMG
+ WIDTH="54" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_42.png"
+ ALT="$(a,b,a)$"></SPAN> or
+<SPAN CLASS="MATH"><IMG
+ WIDTH="54" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_43.png"
+ ALT="$(b,a,a)$"></SPAN>), since these elements are stored only once but appears
+three times in the unfolded <SPAN CLASS="MATH"><IMG
+ WIDTH="24" HEIGHT="29" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_35.png"
+ ALT="$G_3$"></SPAN> matrix, they must be multiplied
+by 3 when computing the decision rules.
+</li></ul>
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Second-order-approximation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_24.html#Estimation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Stochastic-solution-and-simulation" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

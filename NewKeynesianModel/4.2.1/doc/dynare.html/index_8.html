@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 2.3 Configuration</title>
+
+<meta name="description" content="Dynare Reference Manual: 2.3 Configuration">
+<meta name="keywords" content="Dynare Reference Manual: 2.3 Configuration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Configuration"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_7.html#For-other-systems" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#For-MATLAB" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Configuration-1"></a>
+<h2 class="section">2.3 Configuration</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#For-MATLAB">2.3.1 For MATLAB</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                  
+</td></tr>
+<tr><td align="left" valign="top"><a href="#For-GNU-Octave">2.3.2 For GNU Octave</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Some-words-of-warning">2.3.3 Some words of warning</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">       
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="For-MATLAB"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Configuration" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#For-GNU-Octave" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="For-MATLAB-1"></a>
+<h3 class="subsection">2.3.1 For MATLAB</h3>
+
+<p>You need to add the &lsquo;<tt>matlab</tt>&rsquo; subdirectory of your Dynare
+installation to MATLAB path. You have two options for doing that:
+</p>
+<ul>
+<li>
+Using the <code>addpath</code> command in the MATLAB command window:
+
+<p>Under Windows, assuming that you have installed Dynare in the standard
+location, and replacing <code>4.<var>x</var>.<var>y</var></code> with the correct
+version number, type:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">addpath c:\dynare\4.<var>x</var>.<var>y</var>\matlab
+</pre></td></tr></table>
+
+<p>Under Debian GNU/Linux or Ubuntu, type:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">addpath /usr/share/dynare/matlab
+</pre></td></tr></table>
+
+<p>Under Mac OS X, assuming that you have installed Dynare in the standard
+location, and replacing <code>4.<var>x</var>.<var>y</var></code> with the correct version
+number, type:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">addpath /Applications/Dynare/4.<var>x</var>.<var>y</var>/matlab
+</pre></td></tr></table>
+
+<p>MATLAB will not remember this setting next time you run it, and you
+will have to do it again.
+</p>
+</li><li>
+Via the menu entries:
+
+<p>Select the &ldquo;Set Path&rdquo; entry in the &ldquo;File&rdquo; menu, then click on
+&ldquo;Add Folder&hellip;&rdquo;, and select the &lsquo;<tt>matlab</tt>&rsquo; subdirectory of your
+Dynare installation. Note that you <em>should not</em> use &ldquo;Add with
+Subfolders&hellip;&rdquo;. Apply the settings by clicking on &ldquo;Save&rdquo;. Note that
+MATLAB will remember this setting next time you run it.
+</p></li></ul>
+
+<hr size="6">
+<a name="For-GNU-Octave"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#For-MATLAB" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Some-words-of-warning" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="For-GNU-Octave-1"></a>
+<h3 class="subsection">2.3.2 For GNU Octave</h3>
+
+<p>You need to add the &lsquo;<tt>matlab</tt>&rsquo; subdirectory of your Dynare
+installation to Octave path, using the <code>addpath</code> at the Octave
+command prompt.
+</p>
+<p>Under Windows, assuming that you have installed Dynare in the standard
+location, and replacing &ldquo;4.<var>x</var>.<var>y</var>&rdquo; with the correct version
+number, type:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">addpath c:\dynare\4.<var>x</var>.<var>y</var>\matlab
+</pre></td></tr></table>
+
+<p>Under Debian GNU/Linux or Ubuntu, there is no need to use the
+<code>addpath</code> command; the packaging does it for you.
+</p>
+<p>Under Mac OS X, assuming that you have installed Dynare in the
+standard location, and replacing &ldquo;4.<var>x</var>.<var>y</var>&rdquo; with the correct
+version number, type:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">addpath /Applications/Dynare/4.<var>x</var>.<var>y</var>/matlab
+</pre></td></tr></table>
+
+<p>If you are using an Octave version strictly older than 3.2.0, you will
+also want to tell to Octave to accept the short syntax (without
+parentheses and quotes) for the <code>dynare</code> command, by typing:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">mark_as_command dynare
+</pre></td></tr></table>
+
+<p>If you don&rsquo;t want to type this command every time you run Octave, you
+can put it in a file called &lsquo;<tt>.octaverc</tt>&rsquo; in your home directory
+(under Windows this will generally by &lsquo;<tt>c:\Documents and
+Settings\USERNAME\</tt>&rsquo;). This file is run by Octave at every startup.
+</p>
+<hr size="6">
+<a name="Some-words-of-warning"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#For-GNU-Octave" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Some-words-of-warning-1"></a>
+<h3 class="subsection">2.3.3 Some words of warning</h3>
+
+<p>You should be very careful about the content of your MATLAB or Octave
+path. You can display its content by simply typing <code>path</code> in the
+command window.
+</p>
+<p>The path should normally contain system directories of MATLAB or Octave,
+and some subdirectories of your Dynare installation. You have to
+manually add the &lsquo;<tt>matlab</tt>&rsquo; subdirectory, and Dynare will
+automatically add a few other subdirectories at runtime (depending on
+your configuration). You must verify that there is no directory coming
+from another version of Dynare than the one you are planning to use.
+</p>
+<p>You have to be aware that adding other directories to your path can
+potentially create problems, if some of your M-files have the same names
+than Dynare files. Your files would then override Dynare files, and make
+Dynare unusable.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#For-GNU-Octave" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_9.html#Dynare-invocation" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

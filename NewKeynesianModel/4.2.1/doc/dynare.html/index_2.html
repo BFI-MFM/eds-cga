@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 1.1 What is Dynare ?</title>
+
+<meta name="description" content="Dynare Reference Manual: 1.1 What is Dynare ?">
+<meta name="keywords" content="Dynare Reference Manual: 1.1 What is Dynare ?">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="What-is-Dynare-_003f"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_1.html#Introduction" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_3.html#Documentation-sources" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_1.html#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_1.html#Introduction" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="What-is-Dynare-_003f-1"></a>
+<h2 class="section">1.1 What is Dynare ?</h2>
+
+<p>Dynare is a software platform for handling a wide class of economic
+models, in particular dynamic stochastic general equilibrium (DSGE)
+and overlapping generations (OLG) models. The models solved by Dynare
+include those relying on the <i>rational expectations</i> hypothesis, wherein
+agents form their expectations about the future in a way consistent
+with the model. But Dynare is also able to handle models where
+expectations are formed differently: on one extreme, models where
+agents perfectly anticipate the future; on the other extreme, models
+where agents have limited rationality or imperfect knowledge of the
+state of the economy and, hence, form their expectations through a
+learning process. In terms of types of agents, models solved by Dynare
+can incorporate consumers, productive firms, governments, monetary
+authorities, investors and financial intermediaries. Some degree of
+heterogeneity can be achieved by including several distinct classes of
+agents in each of the aforementioned agent categories.
+</p>
+<p>Dynare offers a user-friendly and intuitive way of describing these
+models. It is able to perform simulations of the model given a
+calibration of the model parameters and is also able to estimate these
+parameters given a dataset. In practice, the user will write a text
+file containing the list of model variables, the dynamic equations
+linking these variables together, the computing tasks to be performed
+and the desired graphical or numerical outputs.
+</p>
+<p>A large panel of applied mathematics and computer science techniques
+are internally employed by Dynare: multivariate nonlinear solving and
+optimization, matrix factorizations, local functional approximation,
+Kalman filters and smoothers, MCMC techniques for Bayesian estimation,
+graph algorithms, optimal control, &hellip;
+</p>
+<p>Various public bodies (central banks, ministries of economy and
+finance, international organisations) and some private financial
+institutions use Dynare for performing policy analysis exercises and
+as a support tool for forecasting exercises. In the academic world,
+Dynare is used for research and teaching purposes in postgraduate
+macroeconomics courses.
+</p>
+<p>Dynare is a free software, which means that it can be downloaded free
+of charge, that its source code is freely available, and that it can
+be used for both non-profit and for-profit purposes. Most of the
+source files are covered by the GNU General Public Licence (GPL)
+version 3 or later (there are some exceptions to this, see the file
+&lsquo;<tt>license.txt</tt>&rsquo; in Dynare distribution). It is available for the
+Windows, Mac and Linux platforms and is fully documented through a
+user guide and a reference manual. Part of Dynare is programmed in
+C++, while the rest is written using the
+<a href="http://www.mathworks.com/products/matlab/">MATLAB</a> programming
+language.  The latter implies that commercially-available MATLAB
+software is required in order to run Dynare. However, as an
+alternative to MATLAB, Dynare is also able to run on top of
+<a href="http://www.octave.org">GNU Octave</a> (basically a free clone of
+MATLAB): this possibility is particularly interesting for students or
+institutions who cannot afford, or do not want to pay for, MATLAB and
+are willing to bear the concomitant performance loss.
+</p>
+<p>The development of Dynare is mainly done at
+<a href="http://www.cepremap.ens.fr">Cepremap</a> by a core team of
+researchers who devote part of their time to software
+development. Currently the development team of Dynare is composed of
+Stéphane Adjemian (Université du Maine, Gains and Cepremap), Houtan
+Bastani (Cepremap), Michel Juillard (Banque de France), Frédéric
+Karamé (Université d&rsquo;Évry, Epee and Cepremap), Junior Maih (Norges
+Bank), Ferhat Mihoubi (Université d&rsquo;Évry, Epee and Cepremap), George
+Perendia, Marco Ratto (JRC) and Sébastien Villemot (Cepremap and Paris
+School of Economics). Financial support is provided by Cepremap,
+Banque de France and DSGE-net (an international research network for
+DSGE modeling). Increasingly, the developer base is expanding, as
+tools developed by researchers outside of Cepremap are integrated into
+Dynare.
+</p>
+<p>Interaction between developers and users of Dynare is central to the
+project. A <a href="http://www.dynare.org/phpBB3">web forum</a> is available
+for users who have questions about the usage of Dynare or who want to
+report bugs. Training sessions are given through the Dynare Summer
+School, which is organized every year and is attended by about 40
+people. Finally, priorities in terms of future developments and
+features to be added are decided in cooperation with the institutions
+providing financial support.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_1.html#Introduction" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_3.html#Documentation-sources" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_1.html#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_1.html#Introduction" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_5.html#Installation-and-configuration" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

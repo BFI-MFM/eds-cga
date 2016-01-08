@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.11 Getting information about the model</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.11 Getting information about the model">
+<meta name="keywords" content="Dynare Reference Manual: 4.11 Getting information about the model">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Getting-information-about-the-model"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_20.html#Using-a-steady-state-file" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_22.html#Deterministic-simulation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Getting-information-about-the-model-1"></a>
+<h2 class="section">4.11 Getting information about the model</h2>
+
+<dl>
+<dt><a name="index-check"></a><u>Command:</u> <b>check</b><i> ;</i></dt>
+<dt><a name="index-check-1"></a><u>Command:</u> <b>check</b><i> (solve_algo = <var>INTEGER</var>) ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>Computes the eigenvalues of the model linearized around the values
+specified by the last <code>initval</code>, <code>endval</code> or <code>steady</code>
+statement. Generally, the eigenvalues are only meaningful if the
+linearization is done around a steady state of the model. It is a
+device for local analysis in the neighborhood of this steady state.
+</p>
+<p>A necessary condition for the uniqueness of a stable equilibrium in
+the neighborhood of the steady state is that there are as many
+eigenvalues larger than one in modulus as there are forward looking
+variables in the system. An additional rank condition requires that
+the square submatrix of the right Schur vectors corresponding to the
+forward looking variables (jumpers) and to the explosive eigenvalues
+must have full rank.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>solve_algo = <var>INTEGER</var></code></dt>
+<dd><p>See <a href="index_20.html#solve_005falgo">solve_algo</a>, for the possible values and their meaning.
+</p></dd>
+</dl>
+
+<p><em>Output</em>
+</p>
+<p><code>check</code> returns the eigenvalues in the global variable
+<code>oo_.dr.eigval</code>.
+</p>
+</dd></dl>
+
+<dl>
+<dt><a name="index-oo_005f_002edr_002eeigval"></a><u>MATLAB/Octave variable:</u> <b>oo_.dr.eigval</b></dt>
+<dd><p>Contains the eigenvalues of the model, as computed by the <code>check</code>
+command.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-model_005finfo"></a><u>Command:</u> <b>model_info</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command provides information about:
+</p>
+<ul>
+<li>
+the normalization of the model: an endogenous variable is attributed
+to each equation of the model;
+
+</li><li>
+the block structure of the model: for each block model_info indicates
+its type, the equations number and endogenous variables belonging to
+this block.
+
+</li></ul>
+
+<p>This command can only be used in conjunction with the <code>block</code>
+option of the <code>model</code> block.
+</p>
+<p>There are five different types of blocks depending on the simulation
+method used:
+</p>
+<dl compact="compact">
+<dt> &lsquo;<samp>EVALUATE FORWARD</samp>&rsquo;</dt>
+<dd><p>In this case the block contains only equations where endogenous
+variable attributed to the equation appears currently on the left hand
+side and where no forward looking endogenous variables appear. The
+block has the form: <!-- MATH
+ $y_{j,t} = f_j(y_t, y_{t-1}, \ldots, y_{t-k})$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="191" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_4.png"
+ ALT="$y_{j,t} = f_j(y_t, y_{t-1}, \ldots, y_{t-k})$"></SPAN>.
+</p>
+</dd>
+<dt> &lsquo;<samp>EVALUATE BACKWARD</samp>&rsquo;</dt>
+<dd><p>The block contains only equations where endogenous variable attributed
+to the equation appears currently on the left hand side and where no
+backward looking endogenous variables appear. The block has the form:
+<!-- MATH
+ $y_{j,t} = f_j(y_t, y_{t+1}, \ldots, y_{t+k})$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="190" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_5.png"
+ ALT="$y_{j,t} = f_j(y_t, y_{t+1}, \ldots, y_{t+k})$"></SPAN>.
+</p>
+</dd>
+<dt> &lsquo;<samp>SOLVE FORWARD <var>x</var></samp>&rsquo;</dt>
+<dd><p>The block contains only equations where endogenous variable attributed
+to the equation does not appear currently on the left hand side and
+where no forward looking endogenous variables appear. The block has
+the form: <!-- MATH
+ $g_j(y_{j,t}, y_t, y_{t-1}, \ldots, y_{t-k})=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="205" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_6.png"
+ ALT="$g_j(y_{j,t}, y_t, y_{t-1}, \ldots, y_{t-k})=0$"></SPAN>.
+<var>x</var> is equal to &lsquo;<samp>SIMPLE</samp>&rsquo; if the block has only one
+equation. If several equation appears in the block, <var>x</var> is equal
+to &lsquo;<samp>COMPLETE</samp>&rsquo;.
+</p>
+</dd>
+<dt> &lsquo;<samp>SOLVE FORWARD <var>x</var></samp>&rsquo;</dt>
+<dd><p>The block contains only equations where endogenous variable attributed
+to the equation does not appear currently on the left hand side and
+where no backward looking endogenous variables appear. The block has
+the form: <!-- MATH
+ $g_j(y_{j,t}, y_t, y_{t+1}, \ldots,
+y_{t+k})=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="205" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_7.png"
+ ALT="$g_j(y_{j,t}, y_t, y_{t+1}, \ldots,
+y_{t+k})=0$"></SPAN>. <var>x</var> is equal to &lsquo;<samp>SIMPLE</samp>&rsquo; if the block has only
+one equation. If several equation appears in the block, <var>x</var> is
+equal to &lsquo;<samp>COMPLETE</samp>&rsquo;.
+</p>
+</dd>
+<dt> &lsquo;<samp>SOLVE TWO BOUNDARIES <var>x</var></samp>&rsquo;</dt>
+<dd><p>The block contains equations depending on both forward and backward
+variables. The block looks like: <!-- MATH
+ $g_j(y_{j,t}, y_t, y_{t-1},
+\ldots, y_{t-k} ,y_t, y_{t+1}, \ldots, y_{t+k})=0$
+ -->
+<SPAN CLASS="MATH"><IMG
+ WIDTH="328" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_8.png"
+ ALT="$g_j(y_{j,t}, y_t, y_{t-1},
+\ldots, y_{t-k} ,y_t, y_{t+1}, \ldots, y_{t+k})=0$"></SPAN>. <var>x</var> is equal
+to &lsquo;<samp>SIMPLE</samp>&rsquo; if the block has only one equation. If several
+equation appears in the block, <var>x</var> is equal to &lsquo;<samp>COMPLETE</samp>&rsquo;.
+</p></dd>
+</dl>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-print_005fbytecode_005fdynamic_005fmodel"></a><u>Command:</u> <b>print_bytecode_dynamic_model</b><i> ;</i></dt>
+<dd><p>Prints the equations and the Jacobian matrix of the dynamic model
+stored in the bytecode binary format file. Can only be used in
+conjunction with the <code>bytecode</code> option of the <code>model</code> block.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-print_005fbytecode_005fstatic_005fmodel"></a><u>Command:</u> <b>print_bytecode_static_model</b><i> ;</i></dt>
+<dd><p>Prints the equations and the Jacobian matrix of the static model
+stored in the bytecode binary format file. Can only be used in
+conjunction with the <code>bytecode</code> option of the <code>model</code> block.
+</p></dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_20.html#Using-a-steady-state-file" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_22.html#Deterministic-simulation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

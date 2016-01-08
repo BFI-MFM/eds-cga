@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 5.1 Parallel Configuration</title>
+
+<meta name="description" content="Dynare Reference Manual: 5.1 Parallel Configuration">
+<meta name="keywords" content="Dynare Reference Manual: 5.1 Parallel Configuration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Parallel-Configuration"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_33.html#Examples" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_33.html#Examples" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Parallel-Configuration-1"></a>
+<h2 class="section">5.1 Parallel Configuration</h2>
+
+<dl>
+<dt><a name="index-_005b"></a><u>Configuration block:</u> <b>[</b><i>cluster]</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>When working in parallel, <code>[cluster]</code> is required to specify the
+group of computers that will be used. It is required even if you are
+only invoking multiple processes on one computer.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>Name = <var>CLUSTER_NAME</var></code></dt>
+<dd><p>The reference name of this cluster.
+</p>
+</dd>
+<dt> <code>Members = <var>NODE_NAME</var> <var>NODE_NAME</var> &hellip;</code></dt>
+<dd><p>A list of nodes that comprise the cluster. Each node is separated by
+at least one space.  At the current time, all nodes specified by
+<code>Members</code> option must run the same type of operating system
+(<i>i.e.</i> all Windows or all Linux/Mac OS X). The platform versions
+don&rsquo;t matter (<i>i.e.</i> you can mix Windows XP and 7).
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">[cluster]
+Name = c1
+Members = n1 n2 n3
+</pre></td></tr></table>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-_005b-1"></a><u>Configuration block:</u> <b>[</b><i>node]</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>When working in parallel, <code>[node]</code> is required for every computer
+that will be used. The options that are required differ, depending on
+the underlying operating system and whether you are working locally or
+remotely.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>Name = <var>NODE_NAME</var></code></dt>
+<dd><p>The reference name of this node.
+</p>
+</dd>
+<dt> <code>CPUnbr = <var>INTEGER</var> | [<var>INTEGER</var>:<var>INTEGER</var>]</code></dt>
+<dd><p>If just one integer is passed, the number of processors to use. If a
+range of integers is passed, the specific processors to use (processor
+counting is defined to begin at one as opposed to zero). Note that
+using specific processors is only possible under Windows; under Linux
+and Mac OS X, if a range is passed the same number of processors will
+be used but the range will be adjusted to begin at one.
+</p>
+</dd>
+<dt> <code>ComputerName = <var>COMPUTER_NAME</var></code></dt>
+<dd><p>The name or IP address of the node. If you want to run locally, use
+<code>localhost</code> (case-sensitive).
+</p>
+</dd>
+<dt> <code>UserName = <var>USER_NAME</var></code></dt>
+<dd><p>The username used to log into a remote system. Required for remote
+runs on all platforms.
+</p>
+</dd>
+<dt> <code>Password = <var>PASSWORD</var></code></dt>
+<dd><p>The password used to log into the remote system. Required for remote
+runs originating from Windows.
+</p>
+</dd>
+<dt> <code>RemoteDrive = <var>DRIVE_NAME</var></code></dt>
+<dd><p>The drive to be used for remote computation. Required for remote runs
+originating from Windows.
+</p>
+</dd>
+<dt> <code>RemoteDirectory = <var>PATH</var></code></dt>
+<dd><p>The directory to be used for remote computation. Required for remote
+runs on all platforms.
+</p>
+</dd>
+<dt> <code>DynarePath = <var>PATH</var></code></dt>
+<dd><p>The path to the &lsquo;<tt>matlab</tt>&rsquo; subdirectory within the Dynare
+installation directory. The default is the empty string.
+</p>
+</dd>
+<dt> <code>MatlabOctavePath = <var>PATH_AND_FILE</var></code></dt>
+<dd><p>The path to the MATLAB or Octave executable. The default value is
+<code>matlab</code>.
+</p>
+</dd>
+<dt> <code>SingleCompThread = <var>BOOLEAN</var></code></dt>
+<dd><p>Whether or not to disable MATLAB&rsquo;s native multithreading. The default
+value is <code>true</code>. Option meaningless under Octave.
+</p>
+</dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">[node]
+Name = n1
+ComputerName = localhost
+CPUnbr = 1
+
+[node]
+Name = n2
+ComputerName = dynserv.cepremap.org
+CPUnbr = 5
+UserName = usern
+RemoteDirectory = /home/usern/Remote
+DynarePath = /home/usern/dynare/matlab
+MatlabOctavePath = matlab
+
+[node]
+Name = n3
+ComputerName = dynserv.dynare.org
+CPUnbr = [2:4]
+UserName = usern
+RemoteDirectory = /home/usern/Remote
+DynarePath = /home/usern/dynare/matlab
+MatlabOctavePath = matlab    
+</pre></td></tr></table>
+
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_33.html#Examples" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_33.html#Examples" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.3 Expressions</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.3 Expressions">
+<meta name="keywords" content="Dynare Reference Manual: 4.3 Expressions">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Expressions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_12.html#Variable-declarations" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Parameters-and-variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Expressions-1"></a>
+<h2 class="section">4.3 Expressions</h2>
+
+<p>Dynare distinguishes between two types of mathematical expressions:
+those that are used to describe the model, and those that are used
+outside the model block (<i>e.g.</i> for initializing parameters or
+variables, or as command options). In this manual, those two types of
+expressions are respectively denoted by <var>MODEL_EXPRESSION</var> and
+<var>EXPRESSION</var>.
+</p>
+<p>Unlike MATLAB or Octave expressions, Dynare expressions are necessarily
+scalar ones: they cannot contain matrices or evaluate to
+matrices<a name="DOCF1" href="index_fot.html#FOOT1">(1)</a>.
+</p>
+<p>Expressions can be constructed using integers (<var>INTEGER</var>), floating
+point numbers (<var>DOUBLE</var>), parameter names (<var>PARAMETER_NAME</var>),
+variable names (<var>VARIABLE_NAME</var>), operators and functions.
+</p>
+<p>The following special constants are also accepted in some contexts:
+</p>
+<dl>
+<dt><a name="index-inf"></a><u>Constant:</u> <b>inf</b></dt>
+<dd><p>Represents infinity.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-nan"></a><u>Constant:</u> <b>nan</b></dt>
+<dd><p>&ldquo;Not a number&rdquo;: represents an undefined or unrepresentable value.
+</p></dd></dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Parameters-and-variables">4.3.1 Parameters and variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Operators">4.3.2 Operators</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                   
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Functions">4.3.3 Functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                   
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Parameters-and-variables"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Expressions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Inside-the-model" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Parameters-and-variables-1"></a>
+<h3 class="subsection">4.3.1 Parameters and variables</h3>
+
+<p>Parameters and variables can be introduced in expressions by simply
+typing their names. The semantics of parameters and variables is quite
+different whether they are used inside or outside the model block.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Inside-the-model">4.3.1.1 Inside the model</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">            
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Outside-the-model">4.3.1.2 Outside the model</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">           
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Inside-the-model"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Parameters-and-variables" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Outside-the-model" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Parameters-and-variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Inside-the-model-1"></a>
+<h4 class="subsubsection">4.3.1.1 Inside the model</h4>
+
+<p>Parameters used inside the model refer to the value given through
+parameter initialization (see section <a href="index_14.html#Parameter-initialization">Parameter initialization</a>) or
+<code>homotopy_setup</code> when doing a simulation, or are the estimated
+variables when doing an estimation.
+</p>
+<p>Variables used in a <var>MODEL_EXPRESSION</var> denote <em>current period</em>
+values when neither a lead or a lag is given. A lead or a lag can be
+given by enclosing an integer between parenthesis just after the
+variable name: a positive integer means a lead, a negative one means a
+lag. Leads or lags of more than one period are allowed. For example, if
+<code>c</code> is an endogenous variable, then <code>c(+1)</code> is the variable
+one period ahead, and <code>c(-2)</code> is the variable two periods before.
+</p>
+<p>When specifying the leads and lags of endogenous variables, it is
+important to respect the following convention: in Dynare, the timing of
+a variable reflects when that variable is decided. A control variable &mdash;
+which by definition is decided in the current period &mdash; must have no
+lead. A predetermined variable &mdash; which by definition has been decided in
+a previous period &mdash; must have a lag. A consequence of this is that all
+stock variables must use the &ldquo;stock at the end of the period&rdquo;
+convention. Please refer to <cite>Mancini-Griffoli (2007)</cite> for more
+details and concrete examples.
+</p>
+<p>Leads and lags are primarily used for endogenous variables, but can be
+used for exogenous variables. They have no effect on parameters and are
+forbidden for local model variables (see section <a href="index_15.html#Model-declaration">Model declaration</a>).
+</p>
+<hr size="6">
+<a name="Outside-the-model"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Inside-the-model" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Operators" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Parameters-and-variables" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Outside-the-model-1"></a>
+<h4 class="subsubsection">4.3.1.2 Outside the model</h4>
+
+<p>When used in an expression outside the model block, a parameter or a
+variable simply refers to the last value given to that variable. More
+precisely, for a parameter it refers to the value given in the
+corresponding parameter initialization (see section <a href="index_14.html#Parameter-initialization">Parameter initialization</a>); for an endogenous or exogenous variable, it refers to
+the value given in the most recent <code>initval</code> or <code>endval</code> block.
+</p>
+<hr size="6">
+<a name="Operators"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Outside-the-model" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Functions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Operators-1"></a>
+<h3 class="subsection">4.3.2 Operators</h3>
+
+<p>The following operators are allowed in both <var>MODEL_EXPRESSION</var> and
+<var>EXPRESSION</var>:
+</p>
+<ul>
+<li>
+binary arithmetic operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>
+
+</li><li>
+unary arithmetic operators: <code>+</code>, <code>-</code>
+
+</li><li>
+binary comparison operators (which evaluate to either <code>0</code> or
+<code>1</code>): <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>,
+<code>!=</code>
+</li></ul>
+
+<p>The following special operators are accepted in <var>MODEL_EXPRESSION</var>
+(but not in <var>EXPRESSION</var>):
+</p>
+<dl>
+<dt><a name="index-STEADY_005fSTATE"></a><u>Operator:</u> <b>STEADY_STATE</b><i> (<var>MODEL_EXPRESSION</var>)</i></dt>
+<dd><p>This operator is used to take the value of the enclosed expression at
+the steady state. A typical usage is in the Taylor rule, where you may
+want to use the value of GDP at steady state to compute the output gap.
+</p></dd></dl>
+
+<p><a name="expectation"></a>
+</p><dl>
+<dt><a name="index-EXPECTATION"></a><u>Operator:</u> <b>EXPECTATION</b><i> (<var>INTEGER</var>) (<var>MODEL_EXPRESSION</var>)</i></dt>
+<dd><p>This operator is used to take the expectation of some expression using
+a different information set than the information available at current
+period. For example, <code>EXPECTATION(-1)(x(+1))</code> is equal to the
+expected value of variable <code>x</code> at next period, using the
+information set available at the previous period. Note that a value
+of <code>0</code> for the time shift component is reserved for partial
+information models (not yet fully implemented). See section <a href="index_16.html#Auxiliary-variables">Auxiliary variables</a>, for an explanation of how this operator is handled
+internally and how this affects the output.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Functions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Operators" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Built_002din-Functions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Expressions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Functions-1"></a>
+<h3 class="subsection">4.3.3 Functions</h3>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#Built_002din-Functions">4.3.3.1 Built-in Functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">          
+</td></tr>
+<tr><td align="left" valign="top"><a href="#External-Functions">4.3.3.2 External Functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">          
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Built_002din-Functions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Functions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#External-Functions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Functions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Built_002din-Functions-1"></a>
+<h4 class="subsubsection">4.3.3.1 Built-in Functions</h4>
+
+<p>The following standard functions are supported internally for both
+<var>MODEL_EXPRESSION</var> and <var>EXPRESSION</var>:
+</p>
+<dl>
+<dt><a name="index-exp"></a><u>Function:</u> <b>exp</b><i> (<var>x</var>)</i></dt>
+<dd><p>Natural exponential.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-log"></a><u>Function:</u> <b>log</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-ln"></a><u>Function:</u> <b>ln</b><i> (<var>x</var>)</i></dt>
+<dd><p>Natural logarithm.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-log10"></a><u>Function:</u> <b>log10</b><i> (<var>x</var>)</i></dt>
+<dd><p>Base 10 logarithm.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-sqrt"></a><u>Function:</u> <b>sqrt</b><i> (<var>x</var>)</i></dt>
+<dd><p>Square root.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-sin"></a><u>Function:</u> <b>sin</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-cos"></a><u>Function:</u> <b>cos</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-tan"></a><u>Function:</u> <b>tan</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-asin"></a><u>Function:</u> <b>asin</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-acos"></a><u>Function:</u> <b>acos</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-atan"></a><u>Function:</u> <b>atan</b><i> (<var>x</var>)</i></dt>
+<dd><p>Trigonometric functions.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-max"></a><u>Function:</u> <b>max</b><i> (<var>a</var>, <var>b</var>)</i></dt>
+<dt><a name="index-min"></a><u>Function:</u> <b>min</b><i> (<var>a</var>, <var>b</var>)</i></dt>
+<dd><p>Maximum and minimum of two reals.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-normcdf"></a><u>Function:</u> <b>normcdf</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-normcdf-1"></a><u>Function:</u> <b>normcdf</b><i> (<var>x</var>, <var>mu</var>, <var>sigma</var>)</i></dt>
+<dd><p>Gaussian cumulative density function, with mean <var>mu</var> and standard
+deviation <var>sigma</var>. Note that <code>normcdf(<var>x</var>)</code> is equivalent
+to <code>normcdf(<var>x</var>,0,1)</code>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-normpdf"></a><u>Function:</u> <b>normpdf</b><i> (<var>x</var>)</i></dt>
+<dt><a name="index-normpdf-1"></a><u>Function:</u> <b>normpdf</b><i> (<var>x</var>, <var>mu</var>, <var>sigma</var>)</i></dt>
+<dd><p>Gaussian probability density function, with mean <var>mu</var> and standard
+deviation <var>sigma</var>. Note that <code>normpdf(<var>x</var>)</code> is equivalent
+to <code>normpdf(<var>x</var>,0,1)</code>.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-erf"></a><u>Function:</u> <b>erf</b><i> (<var>x</var>)</i></dt>
+<dd><p>Gauss error function.
+</p></dd></dl>
+
+<hr size="6">
+<a name="External-Functions"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Built_002din-Functions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_14.html#Parameter-initialization" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Functions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="External-Functions-1"></a>
+<h4 class="subsubsection">4.3.3.2 External Functions</h4>
+
+<p>Any other user-defined (or built-in) MATLAB or Octave function may be
+used in both a <var>MODEL_EXPRESSION</var> and an <var>EXPRESSION</var>, provided
+that this function has a scalar argument as a return value.
+</p>
+<p>To use an external function in a <var>MODEL_EXPRESSION</var>, one must
+declare the function using the <code>external_function</code> statement. This
+is not necessary for external functions used in an <var>EXPRESSION</var>.
+</p>
+<dl>
+<dt><a name="index-external_005ffunction"></a><u>Command:</u> <b>external_function</b><i> (<var>OPTIONS</var>&hellip;);</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command declares the external functions used in the model block. It
+is required for every unique function used in the model block.
+</p>
+<p><code>external_function</code> commands can appear several times in the file
+and must come before the model block.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>name = <var>NAME</var></code></dt>
+<dd><p>The name of the function, which must also be the name of the M-/MEX file
+implementing it. This option is mandatory.
+</p>
+</dd>
+<dt> <code>nargs = <var>INTEGER</var></code></dt>
+<dd><p>The number of arguments of the function. If this option is not provided,
+Dynare assumes <code>nargs = 1</code>.
+</p>
+</dd>
+<dt> <code>first_deriv_provided [= <var>NAME</var>]</code></dt>
+<dd><p>If <var>NAME</var> is provided, this tells Dynare that the Jacobian is
+provided as the only output of the M-/MEX file given as the option
+argument. If <var>NAME</var> is not provided, this tells Dynare that the
+M-/MEX file specified by the argument passed to <code>name</code> returns the
+Jacobian as its second output argument.
+</p>
+</dd>
+<dt> <code>second_deriv_provided [= <var>NAME</var>]</code></dt>
+<dd><p>If <var>NAME</var> is provided, this tells Dynare that the Hessian is
+provided as the only output of the M-/MEX file given as the option
+argument. If <var>NAME</var> is not provided, this tells Dynare that the
+M-/MEX file specified by the argument passed to <code>name</code> returns the
+Hessian as its third output argument. NB: This option can only be used
+if the <code>first_deriv_provided</code> option is used in the same
+<code>external_function</code> command.
+</p></dd>
+</dl>
+
+<p><em>Example</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">external_function(name = funcname);
+external_function(name = otherfuncname, nargs = 2,
+                  first_deriv_provided, second_deriv_provided);
+external_function(name = yetotherfuncname, nargs = 3,
+                  first_deriv_provided = funcname_deriv);
+</pre></td></tr></table>
+
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Built_002din-Functions" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_14.html#Parameter-initialization" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Functions" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

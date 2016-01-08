@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.5 Model declaration</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.5 Model declaration">
+<meta name="keywords" content="Dynare Reference Manual: 4.5 Model declaration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Model-declaration"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_14.html#Parameter-initialization" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_16.html#Auxiliary-variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Model-declaration-1"></a>
+<h2 class="section">4.5 Model declaration</h2>
+
+<p>The model is declared inside a <code>model</code> block:
+</p>
+<dl>
+<dt><a name="index-model"></a><u>Block:</u> <b>model</b><i> ;</i></dt>
+<dt><a name="index-model-1"></a><u>Block:</u> <b>model</b><i> (<var>OPTIONS</var>&hellip;);</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>The equations of the model are written in a block delimited by
+<code>model</code> and <code>end</code> keywords.
+</p>
+<p>There must be as many equations as there are endogenous variables in the
+model, except when computing the unconstrained optimal policy with
+<code>ramsey_policy</code>.
+</p>
+<p>The syntax of equations must follow the conventions for
+<var>MODEL_EXPRESSION</var> as described in <a href="index_13.html#Expressions">Expressions</a>. Each equation
+must be terminated by a semicolon (&lsquo;<samp>;</samp>&rsquo;). A normal equation looks
+like:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><var>MODEL_EXPRESSION</var> = <var>MODEL_EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>When the equations are written in homogenous form, it is possible to
+omit the &lsquo;<samp>=0</samp>&rsquo; part and write only the left hand side of the
+equation. A homogenous equation looks like:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"><var>MODEL_EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p>Inside the model block, Dynare allows the creation of <em>model-local
+variables</em>, which constitute a simple way to share a common expression
+between several equations. The syntax consists of a pound sign
+(<code>#</code>) followed by the name of the new model local variable (which
+must <strong>not</strong> be declared as in <a href="index_12.html#Variable-declarations">Variable declarations</a>), an equal
+sign, and the expression for which this new variable will stand. Later
+on, every time this variable appears in the model, Dynare will
+substitute it by the expression assigned to the variable. Note that the
+scope of this variable is restricted to the model block; it cannot be
+used outside. A model local variable declaration looks like:
+</p><table><tr><td>&nbsp;</td><td><pre class="example"># <var>VARIABLE_NAME</var> = <var>MODEL_EXPRESSION</var>;
+</pre></td></tr></table>
+
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>linear</code></dt>
+<dd><p>Declares the model as being linear. It spares oneself from having to
+declare initial values for computing the steady state, and it sets
+automatically <code>order=1</code> in <code>stoch_simul</code>.
+</p>
+</dd>
+<dt> <code>use_dll</code></dt>
+<dd><p><a name="use_005fdll"></a>
+Instructs the preprocessor to create dynamic loadable libraries (DLL)
+containing the model equations and derivatives, instead of writing those
+in M-files. You need a working compilation environment, <i>i.e.</i>
+a working <code>mex</code> command (see <a href="index_6.html#Software-requirements">Software requirements</a> for more
+details). Using this option can result in faster simulations or
+estimations, at the expense of some initial compilation
+time.<a name="DOCF2" href="index_fot.html#FOOT2">(2)</a>
+</p>
+</dd>
+<dt> <code>block</code></dt>
+<dd><p><a name="block"></a>
+Perform the block decomposition of the model, and exploit it in
+computations. See
+<a href="http://www.dynare.org/DynareWiki/FastDeterministicSimulationAndSteadyStateComputation">Dynare wiki</a> for details on the algorithm.
+</p>
+</dd>
+<dt> <code>bytecode</code></dt>
+<dd><p><a name="bytecode"></a>
+Instead of M-files, use a bytecode representation of the model, <i>i.e.</i>
+a binary file containing a compact representation of all the equations.
+</p>
+</dd>
+<dt> <code>cutoff = <var>DOUBLE</var></code></dt>
+<dd><p>Threshold under which a jacobian element is considered as null during
+the model normalization. Only available with option
+<code>block</code>. Default: <code>1e-15</code>
+</p>
+</dd>
+<dt> <code>mfs = <var>INTEGER</var></code></dt>
+<dd><p>Controls the handling of minimum feedback set of endogenous
+variables. Only available with option <code>block</code>. Possible values:
+</p>
+<dl compact="compact">
+<dt> <code>0</code></dt>
+<dd><p>All the endogenous variables are considered as feedback variables (Default).
+</p>
+</dd>
+<dt> <code>1</code></dt>
+<dd><p>The endogenous variables assigned to equation naturally normalized
+(<i>i.e.</i> of the form <SPAN CLASS="MATH"><IMG
+ WIDTH="69" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="index_1.png"
+ ALT="$x=f(Y)$"></SPAN> where <SPAN CLASS="MATH"><IMG
+ WIDTH="13" HEIGHT="15" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_2.png"
+ ALT="$x$"></SPAN> does not appear in
+<SPAN CLASS="MATH"><IMG
+ WIDTH="17" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="index_3.png"
+ ALT="$Y$"></SPAN>) are potentially recursive variables. All the other variables
+are forced to belong to the set of feedback variables.
+</p>
+</dd>
+<dt> <code>2</code></dt>
+<dd><p>In addition of variables with <code>mfs = 1</code> the endogenous variables
+related to linear equations which could be normalized are potential
+recursive variables. All the other variables are forced to belong to
+the set of feedback variables.
+</p>
+</dd>
+<dt> <code>3</code></dt>
+<dd><p>In addition of variables with <code>mfs = 2</code> the endogenous variables
+related to non-linear equations which could be normalized are
+potential recursive variables. All the other variables are forced to
+belong to the set of feedback variables.
+</p></dd>
+</dl>
+
+</dd>
+<dt> <code>no_static</code></dt>
+<dd><p>Don&rsquo;t create the static model file. This can be useful for models which
+don&rsquo;t have a steady state.
+</p></dd>
+</dl>
+
+<p><em>Example 1: elementary RBC model</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">var c k;
+varexo x;
+parameters aa alph bet delt gam;
+
+model;
+c =  - k + aa*x*k(-1)^alph + (1-delt)*k(-1);
+c^(-gam) = (aa*alph*x(+1)*k^(alph-1) + 1 - delt)*c(+1)^(-gam)/(1+bet);
+end;
+</pre></td></tr></table>
+
+<p><em>Example 2: use of model local variables</em>
+</p>
+<p>The following program:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">model;
+# gamma = 1 - 1/sigma;
+u1 = c1^gamma/gamma;
+u2 = c2^gamma/gamma;
+end;
+</pre></td></tr></table>
+
+<p>&hellip;is formally equivalent to:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">model;
+u1 = c1^(1-1/sigma)/(1-1/sigma);
+u2 = c2^(1-1/sigma)/(1-1/sigma);
+end;
+</pre></td></tr></table>
+
+<p><em>Example 3: a linear model</em>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">model(linear);
+x = a*x(-1)+b*y(+1)+e_x;
+y = d*y(-1)+e_y;
+end;
+</pre></td></tr></table>
+
+</dd></dl>
+
+<p>Dynare has the ability to output the list of model equations to a
+LaTeX file, using the <code>write_latex_dynamic_model</code> command. The
+static model can also be written with the
+<code>write_latex_static_model</code> command.
+</p>
+<p><a name="write_005flatex_005fdynamic_005fmodel"></a>
+</p><dl>
+<dt><a name="index-write_005flatex_005fdynamic_005fmodel"></a><u>Command:</u> <b>write_latex_dynamic_model</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command creates a LaTeX file containing the (dynamic) model.
+</p>
+<p>If your &lsquo;<tt>.mod</tt>&rsquo; file is &lsquo;<tt><var>FILENAME</var>.mod</tt>&rsquo;, then Dynare
+will create a file called &lsquo;<tt><var>FILENAME</var>_dynamic.tex</tt>&rsquo;,
+containing the list of all the dynamic model equations.
+</p>
+<p>If LaTeX names were given for variables and parameters
+(see section <a href="index_12.html#Variable-declarations">Variable declarations</a>), then those will be used; otherwise,
+the plain text names will be used.
+</p>
+<p>Time subscripts (<code>t</code>, <code>t+1</code>, <code>t-1</code>, &hellip;) will be
+appended to the variable names, as LaTeX subscripts.
+</p>
+<p>Note that the model written in the TeX file will differ from the model
+declared by the user in the following dimensions:
+</p>
+<ul>
+<li>
+the timing convention of predetermined variables
+(see <a href="index_12.html#predetermined_005fvariables">predetermined_variables</a>) will have been changed to the
+default Dynare timing convention; in other words, variables declared
+as predetermined will be lagged on period back,
+
+</li><li>
+the expectation operators (see <a href="index_13.html#expectation">expectation</a>) will have
+been removed, replaced by auxiliary variables and new equations as
+explained in the documentation of the operator,
+
+</li><li>
+endogenous variables with leads or lags greater or equal than two will
+have been removed, replaced by new auxiliary variables and equations,
+
+</li><li>
+for a stochastic model, exogenous variables with leads or lags will
+also have been replaced by new auxiliary variables and equations.
+</li></ul>
+
+</dd></dl>
+
+<dl>
+<dt><a name="index-write_005flatex_005fstatic_005fmodel"></a><u>Command:</u> <b>write_latex_static_model</b><i> ;</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command creates a LaTeX file containing the static model.
+</p>
+<p>If your &lsquo;<tt>.mod</tt>&rsquo; file is &lsquo;<tt><var>FILENAME</var>.mod</tt>&rsquo;, then Dynare
+will create a file called &lsquo;<tt><var>FILENAME</var>_static.tex</tt>&rsquo;, containing
+the list of all the equations of the steady state model.
+</p>
+<p>If LaTeX names were given for variables and parameters
+(see section <a href="index_12.html#Variable-declarations">Variable declarations</a>), then those will be used; otherwise,
+the plain text names will be used.
+</p>
+<p>Note that the model written in the TeX file will differ from the model
+declared by the user in the some dimensions
+(see <a href="#write_005flatex_005fdynamic_005fmodel">write_latex_dynamic_model</a> for details).
+</p>
+<p>Also note that this command will not output the contents of the
+optional <code>steady_state_model</code> block (see <a href="index_20.html#steady_005fstate_005fmodel">steady_state_model</a>);
+it will rather output a static version (<i>i.e.</i> without leads and
+lags) of the dynamic model declared in the <code>model</code> block.
+</p>
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_14.html#Parameter-initialization" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_16.html#Auxiliary-variables" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

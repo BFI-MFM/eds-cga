@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Copyright C 1996-2011, Dynare Team.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+A copy of the license can be found at http://www.gnu.org/licenses/fdl.txt.
+
+ -->
+<!-- Created on May 24, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Dynare Reference Manual: 4.17 Sensitivity and identification analysis</title>
+
+<meta name="description" content="Dynare Reference Manual: 4.17 Sensitivity and identification analysis">
+<meta name="keywords" content="Dynare Reference Manual: 4.17 Sensitivity and identification analysis">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Sensitivity-and-identification-analysis"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_26.html#Optimal-policy" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_28.html#Displaying-and-saving-results" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="index_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="index_35.html#Command-and-Function-Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="index_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Sensitivity-and-identification-analysis-1"></a>
+<h2 class="section">4.17 Sensitivity and identification analysis</h2>
+
+
+<dl>
+<dt><a name="index-dynare_005fsensitivity"></a><u>Command:</u> <b>dynare_sensitivity</b><i> ;</i></dt>
+<dt><a name="index-dynare_005fsensitivity-1"></a><u>Command:</u> <b>dynare_sensitivity</b><i> (<var>OPTIONS</var>&hellip;);</i></dt>
+<dd>
+<p>This function is an interface to the global sensitivity analysis (GSA)
+toolbox developed by the Joint Research Center (JRC) of the European
+Commission. The GSA toolbox needs to be downloaded separately from the
+<a href="http://eemc.jrc.ec.europa.eu/Software-DYNARE.htm">JRC web site</a>.
+</p>
+<p>Please refer to the documentation of the GSA toolbox on the official
+website for more details on the usage of this command.
+</p></dd></dl>
+
+<dl>
+<dt><a name="index-identification"></a><u>Command:</u> <b>identification</b><i> ;</i></dt>
+<dt><a name="index-identification-1"></a><u>Command:</u> <b>identification</b><i> (<var>OPTIONS</var>&hellip;);</i></dt>
+<dd>
+<p><em>Description</em>
+</p>
+<p>This command triggers identification analysis.
+</p>
+<p><em>Options</em>
+</p>
+<dl compact="compact">
+<dt> <code>ar = <var>INTEGER</var></code></dt>
+<dd><p>Number of lags of computed autocorrelations (theoretical moments). Default: <code>3</code>
+</p>
+</dd>
+<dt> <code>useautocorr = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, compute derivatives of autocorrelation. If equal
+to <code>0</code>, compute derivatives of autocovariances. Default: <code>1</code>
+</p>
+</dd>
+<dt> <code>load_ident_files = <var>INTEGER</var></code></dt>
+<dd><p>If equal to <code>1</code>, allow Dynare to load previously 
+computed analyzes. Default: <code>0</code>
+</p>
+</dd>
+<dt> <code>prior_mc = <var>INTEGER</var></code></dt>
+<dd><p>Size of Monte Carlo sample. Default: <code>2000</code>
+</p></dd>
+</dl>
+
+</dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="index_26.html#Optimal-policy" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_28.html#Displaying-and-saving-results" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="index_10.html#The-Model-file" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="index_31.html#The-Configuration-File" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>SÃ©bastien Villemot</em> on <em>May 24, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
